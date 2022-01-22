@@ -24,6 +24,9 @@ import {
     ChevronRightIcon,
   } from '@chakra-ui/icons';
   import { MoonIcon, SunIcon } from '@chakra-ui/icons';
+
+import { NavLink} from 'react-router-dom';
+
   export default function NavBar() {
     const { isOpen, onToggle } = useDisclosure();
     const { colorMode, toggleColorMode } = useColorMode();
@@ -54,12 +57,15 @@ import {
             />
           </Flex>
           <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
-            <Text
-              textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
-              fontFamily={'heading'}
-              color={useColorModeValue('gray.800', 'white')}>
-              Logo
-            </Text>
+            <Link to='/' component={NavLink}>
+              <Text
+                textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
+                fontFamily={'heading'}
+                fontWeight={'bolder'}
+                color={useColorModeValue('gray.800', 'white')}>
+                Chat Bud
+              </Text>
+            </Link>
   
             <Flex display={{ base: 'none', md: 'flex' }} ml={10}>
               <DesktopNav />
@@ -75,20 +81,24 @@ import {
                 {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
               </Button>
             <Button
-              as={'a'}
+              as={NavLink}
+              to ='/sign-in'
               fontSize={'sm'}
               fontWeight={400}
-              variant={'link'}
-              href={'#'}>
+              // variant={'link'}
+              // href={'/sign-in'}
+              >
               Sign In
             </Button>
             <Button
+              as={NavLink}
+              to ='/sign-up'
+              
               display={{ base: 'none', md: 'inline-flex' }}
               fontSize={'sm'}
               fontWeight={600}
               color={'white'}
               bg={'pink.400'}
-              href={'#'}
               _hover={{
                 bg: 'pink.300',
               }}>
@@ -252,11 +262,11 @@ import {
   
   const NAV_ITEMS= [
     {
-      label: 'Inspiration',
+      label: 'About',
       children: [
         {
-          label: 'Explore Design Work',
-          subLabel: 'Trending Design to inspire you',
+          label: 'Chat Bud origin',
+          subLabel: 'How Chat Bud started',
           href: '#',
         },
         {
@@ -267,26 +277,22 @@ import {
       ],
     },
     {
-      label: 'Find Work',
+      label: 'Features',
       children: [
         {
-          label: 'Job Board',
-          subLabel: 'Find your dream design job',
+          label: 'Current',
+          subLabel: 'Features currently available',
           href: '#',
         },
         {
-          label: 'Freelance Projects',
-          subLabel: 'An exclusive list for contract work',
+          label: 'Upcoming',
+          subLabel: 'An exclusive list of upcoming features',
           href: '#',
         },
       ],
     },
     {
-      label: 'Learn Design',
-      href: '#',
-    },
-    {
-      label: 'Hire Designers',
+      label: 'Help Center',
       href: '#',
     },
   ];
