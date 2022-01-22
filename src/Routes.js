@@ -1,17 +1,17 @@
-import { Route, Switch, useParams, useLocation, BrowserRouter as router } from 'react-router-dom'
-import { Register } from './Pages/register/Register';
+import { Route,Routes, useParams, useLocation} from 'react-router-dom'
+import { SignUp } from './Pages/register/SignUp';
+import { SignIn } from './Pages/register/SignIn';
 
-const Routes = () => {  
+const Routesl = () => {  
     const params = useParams();
     const location = useLocation();
 
     return (
-        <router>
-            <Switch>
-                <Route exact path="/" component={Register} />
-            </Switch>
-        </router>
-    )
+        <Routes>
+            <Route path="/sign-in" element={<SignIn />} />
+            <Route exact path="/sign-up" element={<SignUp />} />
+        </Routes>
+        )
 }
 
-
+export default Routesl;
