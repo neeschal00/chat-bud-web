@@ -1,14 +1,14 @@
-import logo from './logo.svg';
+
 import './App.css';
-import { Header } from './Components/Header';
+import {ThemeProvider, theme, ColorModeProvider,CSSReset} from '@chakra-ui/react'
+import NavBar from './Components/NavBar';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <Header name ="jack"/>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+        <NavBar />
+      
+    </ThemeProvider>
   );
 }
 
