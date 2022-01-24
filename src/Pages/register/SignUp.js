@@ -14,8 +14,10 @@ import {
     useColorModeValue,
     Link,
   } from '@chakra-ui/react';
-  import { useState } from 'react';
+  import { useState, useEffect } from 'react';
   import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
+  import { Formik, Field, Form, useField } from 'formik';
+import * as yup from 'yup';
   
 export const SignUp= () => {
     const [showPassword, setShowPassword] = useState(false);
