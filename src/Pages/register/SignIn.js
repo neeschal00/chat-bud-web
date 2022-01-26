@@ -1,5 +1,10 @@
+import {
+  InputControl,
+  SubmitButton,
+} from "formik-chakra-ui";
 
-
+import { Formik, Field, Form, useField } from 'formik';
+import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 
 import {
     Flex,
@@ -13,9 +18,41 @@ import {
     Button,
     Heading,
     Text,
+    FormErrorMessage,
+    InputGroup,
+    InputRightElement,
     useColorModeValue,
   } from '@chakra-ui/react';
-  
+  import { useState, useEffect } from 'react';
+  const PasswordField = ({ label,...props }) => {
+    const [field, meta] = useField(props)
+    const errorText = meta.error && meta.touched ? meta.error : ''
+    const [showPassword, setShowPassword] = useState(false);
+    return (
+        <FormControl id="password" isRequired isInvalid={!!meta.error && meta.touched} >
+            <FormLabel>{label}</FormLabel>
+            <InputGroup>
+                <Field as={Input}  type={showPassword ? 'text' : 'password'} {...props}/>
+                <InputRightElement h={'full'}>
+                    <Button
+                    variant={'ghost'}
+                    onClick={() =>
+                        setShowPassword((showPassword) => !showPassword)
+                    }>
+                    {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                    </Button>
+                </InputRightElement>
+                
+            </InputGroup>
+            
+            {!!errorText && <FormErrorMessage>{errorText}</FormErrorMessage>}
+        </FormControl>
+    )
+}
+
+
+
+
   export const SignIn = () => {
     return (
       <Flex

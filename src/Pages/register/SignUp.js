@@ -39,15 +39,15 @@ const validationSchema = yup.object({
         ),
 })
 
-const InputField = ({ label,...props }) => {
+const PasswordField = ({ label,...props }) => {
     const [field, meta] = useField(props)
     const errorText = meta.error && meta.touched ? meta.error : ''
     const [showPassword, setShowPassword] = useState(false);
     return (
         <FormControl id="password" isRequired isInvalid={!!meta.error && meta.touched} >
-            <FormLabel>Password</FormLabel>
+            <FormLabel>{label}</FormLabel>
             <InputGroup>
-                <Field as={Input}  type={showPassword ? 'text' : 'password'} name='password' />
+                <Field as={Input}  type={showPassword ? 'text' : 'password'} {...props}/>
                 <InputRightElement h={'full'}>
                     <Button
                     variant={'ghost'}
@@ -59,9 +59,7 @@ const InputField = ({ label,...props }) => {
                 </InputRightElement>
                 
             </InputGroup>
-            {errorText && (
-        <FormHelperText> {errorText}</FormHelperText>
-      )}
+            
             {!!errorText && <FormErrorMessage>{errorText}</FormErrorMessage>}
         </FormControl>
     )
@@ -88,8 +86,8 @@ const SignUpForm = () => {
                 
                 <InputControl name='userName' label="Username" isRequired/>
                 <InputControl name='email' label="Email" isRequired/>
-                <InputControl name='password' label="Password" type={showPassword ? 'text' : 'password'} isRequired />
-                {/* <InputField /> */}
+                {/* <InputControl name='password' label="Password" type="password" isRequired /> */}
+                <PasswordField name='password' label="Password" isRequired />
                 <Stack spacing={10} pt={2}>
                     <SubmitButton
                     loadingText="Submitting"
@@ -107,7 +105,7 @@ const SignUpForm = () => {
                 </Stack>
                 <Stack pt={6}>
                     <Text align={'center'}>
-                    Already a user? <Link color={'blue.400'}>Login</Link>
+                    Already a user? <Link color={'blue.400'} href="/sign-in" >Login</Link>
                     </Text>
                 </Stack>
                 </Stack>
