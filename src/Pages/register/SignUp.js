@@ -5,8 +5,9 @@ import {
     FormLabel,
     Input,
     InputGroup,
-    HStack,
     InputRightElement,
+    FormErrorMessage,
+    FormHelperText,
     Stack,
     Button,
     Heading,
@@ -18,7 +19,111 @@ import {
   import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
   import { Formik, Field, Form, useField } from 'formik';
 import * as yup from 'yup';
-  
+
+import {
+    InputControl,
+    SubmitButton,
+  } from "formik-chakra-ui";
+
+const validationSchema = yup.object({
+    userName: yup.string().max(50).required(),
+    email: yup.string().email().required(),
+    password: yup
+        .string()
+        .min(8, 'Password is too short - should be 8 chars minimum.')
+        // .max(12, 'Password should be in between 8-12 characters')
+        .required('Password is required to register')
+        .matches(
+            /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+            'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character',
+        ),
+})
+
+const InputField = ({ label,...props }) => {
+    const [field, meta] = useField(props)
+    const errorText = meta.error && meta.touched ? meta.error : ''
+    const [showPassword, setShowPassword] = useState(false);
+    return (
+        <FormControl id="password" isRequired isInvalid={!!meta.error && meta.touched} >
+            <FormLabel>Password</FormLabel>
+            <InputGroup>
+                <Field as={Input}  type={showPassword ? 'text' : 'password'} name='password' />
+                <InputRightElement h={'full'}>
+                    <Button
+                    variant={'ghost'}
+                    onClick={() =>
+                        setShowPassword((showPassword) => !showPassword)
+                    }>
+                    {showPassword ? <ViewIcon /> : <ViewOffIcon />}
+                    </Button>
+                </InputRightElement>
+                
+            </InputGroup>
+            {errorText && (
+        <FormHelperText> {errorText}</FormHelperText>
+      )}
+            {!!errorText && <FormErrorMessage>{errorText}</FormErrorMessage>}
+        </FormControl>
+    )
+}
+
+const SignUpForm = () => {
+    const [showPassword, setShowPassword] = useState(false);
+    return (
+        <Formik 
+            initialValues={{    userName: '',
+                                email: '',  
+                                password:'',}}
+            validationSchema={validationSchema}
+            onSubmit={(values, { setSubmitting,resetForm }) => {
+                setSubmitting(true);
+                console.log(values);
+                setSubmitting(false);
+                resetForm();
+            }}>
+            {({ values,setFieldValue,errors,tuched,isSubmitting, isValid, handleSubmit }) => (
+                <Form> 
+                    
+                <Stack spacing={4}>
+                
+                <InputControl name='userName' label="Username" isRequired/>
+                <InputControl name='email' label="Email" isRequired/>
+                <InputControl name='password' label="Password" type={showPassword ? 'text' : 'password'} isRequired />
+                {/* <InputField /> */}
+                <Stack spacing={10} pt={2}>
+                    <SubmitButton
+                    loadingText="Submitting"
+                    type='submit'
+                    isLoading={isSubmitting}
+                    isDisabled={!isValid}
+                    size="lg"
+                    bg={'blue.400'}
+                    color={'white'}
+                    _hover={{
+                        bg: 'blue.500',
+                    }}>
+                    Sign up
+                    </SubmitButton>
+                </Stack>
+                <Stack pt={6}>
+                    <Text align={'center'}>
+                    Already a user? <Link color={'blue.400'}>Login</Link>
+                    </Text>
+                </Stack>
+                </Stack>
+            
+                </Form>
+            )}
+
+            
+            
+            
+            </Formik>
+    )}
+    
+
+
+
 export const SignUp= () => {
     const [showPassword, setShowPassword] = useState(false);
   
@@ -42,59 +147,9 @@ export const SignUp= () => {
                 rounded={'lg'}
                 bg={useColorModeValue('white', 'gray.700')}
                 boxShadow={'lg'}
+                w={[300, 400, 500]}
                 p={8}>
-                <Stack spacing={4}>
-                <HStack>
-                    <Box>
-                    <FormControl id="firstName" isRequired>
-                        <FormLabel>First Name</FormLabel>
-                        <Input type="text" />
-                    </FormControl>
-                    </Box>
-                    <Box>
-                    <FormControl id="lastName">
-                        <FormLabel>Last Name</FormLabel>
-                        <Input type="text" />
-                    </FormControl>
-                    </Box>
-                </HStack>
-                <FormControl id="email" isRequired>
-                    <FormLabel>Email address</FormLabel>
-                    <Input type="email" />
-                </FormControl>
-                <FormControl id="password" isRequired>
-                    <FormLabel>Password</FormLabel>
-                    <InputGroup>
-                    <Input type={showPassword ? 'text' : 'password'} />
-                    <InputRightElement h={'full'}>
-                        <Button
-                        variant={'ghost'}
-                        onClick={() =>
-                            setShowPassword((showPassword) => !showPassword)
-                        }>
-                        {showPassword ? <ViewIcon /> : <ViewOffIcon />}
-                        </Button>
-                    </InputRightElement>
-                    </InputGroup>
-                </FormControl>
-                <Stack spacing={10} pt={2}>
-                    <Button
-                    loadingText="Submitting"
-                    size="lg"
-                    bg={'blue.400'}
-                    color={'white'}
-                    _hover={{
-                        bg: 'blue.500',
-                    }}>
-                    Sign up
-                    </Button>
-                </Stack>
-                <Stack pt={6}>
-                    <Text align={'center'}>
-                    Already a user? <Link color={'blue.400'}>Login</Link>
-                    </Text>
-                </Stack>
-                </Stack>
+                <SignUpForm />
             </Box>
             </Stack>
         </Flex>        
