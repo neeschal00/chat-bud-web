@@ -79,7 +79,7 @@ const SignUpForm = () => {
                 setSubmitting(false);
                 resetForm();
             }}>
-            {({ values,setFieldValue,errors,tuched,isSubmitting, isValid, handleSubmit }) => (
+            {({ values,setFieldValue,errors,touched,isSubmitting, isValid, handleSubmit }) => (
                 <Form> 
                     
                 <Stack spacing={4}>
@@ -137,9 +137,6 @@ export const SignUp= () => {
                 <Heading fontSize={'4xl'} textAlign={'center'}>
                 Sign up
                 </Heading>
-                <Text fontSize={'lg'} color={'gray.600'}>
-                to enjoy all of our cool features ✌️
-                </Text>
             </Stack>
             <Box
                 rounded={'lg'}
