@@ -3,6 +3,7 @@ import {
   IconButton,
   Avatar,
   Box,
+  Button,
   CloseButton,
   Flex,
   HStack,
@@ -14,6 +15,7 @@ import {
   DrawerContent,
   Text,
   useDisclosure,
+  useColorMode,
   BoxProps,
   FlexProps,
   Menu,
@@ -33,8 +35,13 @@ import {
   FiChevronDown,
 } from 'react-icons/fi';
 import { IconType } from 'react-icons';
-import { ReactText } from 'react';
-
+import { MoonIcon, SunIcon } from '@chakra-ui/icons';
+import img1 from '/images/1.jpg';
+import img2 from '/images/2.jpg';
+import img3 from '/images/3.jpg';
+import img4 from '/images/4.jpg';
+import img6 from '/images/6.jpg';
+import img5 from '/images/5.jpg';
 
 const LinkItems = [
   { name: 'Home', icon: FiHome },
@@ -84,7 +91,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
       bg={useColorModeValue('white', 'gray.900')}
       borderRight="1px"
       borderRightColor={useColorModeValue('gray.200', 'gray.700')}
-      w={{ base: 'full', md: 60 }}
+      w={{ base: 'full', md: 80 }}
       pos="fixed"
       h="full"
       {...rest}>
@@ -95,16 +102,16 @@ const SidebarContent = ({ onClose, ...rest }) => {
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
       {LinkItems.map((link) => (
-        <NavItem key={link.name} icon={link.icon}>
+        <ChatItem key={link.name} icon={link.icon}>
           {link.name}
-        </NavItem>
+        </ChatItem>
       ))}
     </Box>
   );
 };
 
 
-const NavItem = ({ icon, children, ...rest }) => {
+const ChatItem = ({ icon, children, ...rest }) => {
   return (
     <Link href="#" style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
       <Flex
@@ -137,6 +144,8 @@ const NavItem = ({ icon, children, ...rest }) => {
 
 
 const MobileNav = ({ onOpen, ...rest }) => {
+  const { isOpen, onToggle } = useDisclosure();
+  const { colorMode, toggleColorMode } = useColorMode();
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
@@ -144,7 +153,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
       height="20"
       alignItems="center"
       bg={useColorModeValue('white', 'gray.900')}
-      borderBottomWidth="1px"
+      borderBottomWidth="1px" 
       borderBottomColor={useColorModeValue('gray.200', 'gray.700')}
       justifyContent={{ base: 'space-between', md: 'flex-end' }}
       {...rest}>
@@ -165,6 +174,9 @@ const MobileNav = ({ onOpen, ...rest }) => {
       </Text>
 
       <HStack spacing={{ base: '0', md: '6' }}>
+        <Button onClick={toggleColorMode}>
+          {colorMode === 'light' ? <MoonIcon /> : <SunIcon />}
+        </Button>
         <IconButton
           size="lg"
           variant="ghost"
@@ -184,6 +196,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
                     'https://images.unsplash.com/photo-1619946794135-5bc917a27793?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9'
                   }
                 />
+                
                 <VStack
                   display={{ base: 'none', md: 'flex' }}
                   alignItems="flex-start"
@@ -201,6 +214,7 @@ const MobileNav = ({ onOpen, ...rest }) => {
             </MenuButton>
             <MenuList
               bg={useColorModeValue('white', 'gray.900')}
+              opacity={isOpen ? 1 : 0}
               borderColor={useColorModeValue('gray.200', 'gray.700')}>
               <MenuItem>Profile</MenuItem>
               <MenuItem>Settings</MenuItem>
