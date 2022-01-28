@@ -3,7 +3,7 @@ import React from "react";
 export const ChatInterface = () => {
     return(
         <div>
-            Hello NIGgas
+            <h1>Hello NIGgas</h1>
         </div>
     );
 }

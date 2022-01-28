@@ -9,9 +9,9 @@ const Routesl = () => {
 
     return (
         <Routes>
-            <Route path="/" element={<ChatInterface />} />
-            <Route path="/sign-in" element={<SignIn />} />
+            <Route exact path="/sign-in" element={<SignIn />} />
             <Route exact path="/sign-up" element={<SignUp />} />
+            <Route exact path="/" element={<ChatInterface />} />
         </Routes>
         )
 }

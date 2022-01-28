@@ -16,7 +16,10 @@ import {
   Text,
   useDisclosure,
   useColorMode,
-  BoxProps,
+  InputGroup,
+  Input,
+  InputRightElement,
+
   FlexProps,
   Menu,
   MenuButton,
@@ -35,20 +38,22 @@ import {
   FiChevronDown,
 } from 'react-icons/fi';
 import { IconType } from 'react-icons';
-import { MoonIcon, SunIcon } from '@chakra-ui/icons';
-import img1 from '/images/1.jpg';
-import img2 from '/images/2.jpg';
-import img3 from '/images/3.jpg';
-import img4 from '/images/4.jpg';
-import img6 from '/images/6.jpg';
-import img5 from '/images/5.jpg';
+import { MoonIcon, SunIcon,SearchIcon } from '@chakra-ui/icons';
+import img1 from '../images/1.jpg';
+import img2 from '../images/2.jpg';
+import img3 from '../images/3.jpg';
+import img4 from '../images/4.jpg';
+import img6 from '../images/6.jpg';
+import img5 from '../images/5.jpg';
+import { Spinner } from '@chakra-ui/react'
 
 const LinkItems = [
-  { name: 'Home', icon: FiHome },
-  { name: 'Trending', icon: FiTrendingUp },
-  { name: 'Explore', icon: FiCompass },
-  { name: 'Favourites', icon: FiStar },
-  { name: 'Settings', icon: FiSettings },
+  { name: 'Nsh bhat',image:img1, message:"See ya", type:"sent",chatType:"group" },
+  { name: 'jackash',  image:img2, message:"See ya", type:"received",chatType:"single"  },
+  { name: 'huiii', image:img3, message:"See ya", type:"sent",chatType:"group"  },
+  { name: 'yuhs',  image:img4, message:"See ya", type:"received",chatType:"single"  },
+  { name: 'banjs',  image:img5,message:"See ya", type:"sent",chatType:"group"  },
+  { name: 'fagga', image:img6, message:"See ya", type:"received",chatType:"single"  },
 ];
 
 export default function SideBar({
@@ -75,8 +80,10 @@ export default function SideBar({
       </Drawer>
       {/* mobilenav */}
       <MobileNav onOpen={onOpen} />
-      <Box ml={{ base: 0, md: 60 }} p="4">
+      <Box ml={{ base: 0, md: 80 }} p="4">
         {children}
+        hellow wor
+
       </Box>
     </Box>
   );
@@ -85,6 +92,8 @@ export default function SideBar({
 
 
 const SidebarContent = ({ onClose, ...rest }) => {
+  const[searching,setSearching] = React.useState(false);
+  const[searchValue,setSearchValue] = React.useState("");
   return (
     <Box
       transition="3s ease"
@@ -95,14 +104,31 @@ const SidebarContent = ({ onClose, ...rest }) => {
       pos="fixed"
       h="full"
       {...rest}>
-      <Flex h="20" alignItems="center" mx="8" justifyContent="space-between">
+      <Flex h="20" alignItems="center" mx="8" pb="1.6" justifyContent="space-between">
         <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
           Logo
         </Text>
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
+      <Box alignItems="center" mx="8" marginBottom={8}>
+        <InputGroup>
+          <Input placeholder="Search" value={searchValue} onChange={(event) =>setSearchValue(event.target.value)} />
+          <InputRightElement h={'full'}>
+              <Button
+              variant={'ghost'}
+              rightIcon={<SearchIcon />}
+              isLoading={searching}
+              onClick={() =>{
+                setSearching(true)
+                console.log('Searching for: ', searchValue)
+                
+                }}>
+              </Button>
+          </InputRightElement>
+        </InputGroup>
+      </Box>
       {LinkItems.map((link) => (
-        <ChatItem key={link.name} icon={link.icon}>
+        <ChatItem key={link.name} name={link.name} image={link.image} message={link.message}>
           {link.name}
         </ChatItem>
       ))}
@@ -122,8 +148,9 @@ const ChatItem = ({ icon, children, ...rest }) => {
         role="group"
         cursor="pointer"
         _hover={{
-          bg: 'cyan.400',
+          bg: useColorModeValue('blue.600', 'blue.900'),
           color: 'white',
+          opacity: 0.8,
         }}
         {...rest}>
         {icon && (
