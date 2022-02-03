@@ -82,7 +82,7 @@ export default function SideBar({
       <MobileNav onOpen={onOpen} />
       <Box ml={{ base: 0, md: 80 }} p="4">
         {children}
-        hellow wor
+
 
       </Box>
     </Box>

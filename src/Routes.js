@@ -11,7 +11,8 @@ const Routesl = () => {
         <Routes>
             <Route exact path="/sign-in" element={<SignIn />} />
             <Route exact path="/sign-up" element={<SignUp />} />
-            <Route exact path="/" element={<ChatInterface />} />
+            <Route exact path="/chat/:id" element={<ChatInterface />} />
+            {/* <Route exact path="/" element={<ChatInterface />} /> */}
         </Routes>
         )
 }
