@@ -1,4 +1,4 @@
-import { Flex } from "@chakra-ui/react";
+import { Flex,Box } from "@chakra-ui/react";
 import React from "react";
 import ChatBox from "./ChatBox";
 import  ChatDetails  from "./ChatDetails";
@@ -13,11 +13,10 @@ export const ChatInterface = (props) => {
     
     console.log(chatId);
     return(
-        <Flex>
+        <Box w="100%" h="100%">
             <ChatBox chatId ={chatId} data={chatId} />
             <ChatDetails chatId={chatId} data={chatId} />
-            
-        </Flex>
+        </Box>
     );
 }
 

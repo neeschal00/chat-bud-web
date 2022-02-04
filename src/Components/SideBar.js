@@ -49,10 +49,13 @@ import { Spinner } from '@chakra-ui/react'
 
 const LinkItems = [
   { name: 'Nsh bhat',image:img1, message:"See ya", type:"sent",chatType:"group" },
-  { name: 'jackash',  image:img2, message:"See ya", type:"received",chatType:"single"  },
-  { name: 'huiii', image:img3, message:"See ya", type:"sent",chatType:"group"  },
-  { name: 'yuhs',  image:img4, message:"See ya", type:"received",chatType:"single"  },
-  { name: 'banjs',  image:img5,message:"See ya", type:"sent",chatType:"group"  },
+  { name: 'jackash',  image:img2, message:"Fool ya", type:"received",chatType:"single"  },
+  { name: 'huiii', image:img3, message:"Bakayara ya", type:"sent",chatType:"group"  },
+  { name: 'yuhs',  image:img4, message:"Komayaru ya", type:"received",chatType:"single"  },
+  { name: 'banjs',  image:img5,message:"Baka ya", type:"sent",chatType:"group"  },
+  { name: 'fagga', image:img6, message:"See ya", type:"received",chatType:"single"  },
+  { name: 'fagga', image:img6, message:"See ya", type:"received",chatType:"single"  },
+  { name: 'fagga', image:img6, message:"See ya", type:"received",chatType:"single"  },
   { name: 'fagga', image:img6, message:"See ya", type:"received",chatType:"single"  },
 ];
 
@@ -103,6 +106,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
       w={{ base: 'full', md: 80 }}
       pos="fixed"
       h="full"
+      overflowY="auto"
       {...rest}>
       <Flex h="20" alignItems="center" mx="8" pb="1.6" justifyContent="space-between">
         <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
@@ -129,7 +133,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
       </Box>
       {LinkItems.map((link) => (
         <ChatItem key={link.name} name={link.name} image={link.image} message={link.message}>
-          {link.name}
+          
         </ChatItem>
       ))}
     </Box>
@@ -137,7 +141,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
 };
 
 
-const ChatItem = ({ icon, children, ...rest }) => {
+const ChatItem = ({ image,name,message,children, ...rest }) => {
   return (
     <Link href="#" style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
       <Flex
@@ -153,16 +157,23 @@ const ChatItem = ({ icon, children, ...rest }) => {
           opacity: 0.8,
         }}
         {...rest}>
-        {icon && (
-          <Icon
-            mr="4"
-            fontSize="16"
-            _groupHover={{
-              color: 'white',
-            }}
-            as={icon}
-          />
+        {image && (
+          <>
+          <Flex>
+            <Avatar src={image} size="sm" mr="2" />
+            <Box>
+              
+              <Text fontSize="lg" fontWeight="bold" ml="1">{name}</Text>
+              <Text fontSize="sm" color="gray.500" ml="1">{message}</Text>
+            </Box>
+            <Box>
+              <Icon name="chevron-right" size="12px" color="gray.500" />
+            </Box>
+
+          </Flex>
+          </>
         )}
+
         {children}
       </Flex>
     </Link>
