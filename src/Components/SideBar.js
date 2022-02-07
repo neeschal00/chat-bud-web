@@ -36,6 +36,7 @@ import {
   FiMenu,
   FiBell,
   FiChevronDown,
+  FiCheck
 } from 'react-icons/fi';
 import { IconType } from 'react-icons';
 import { MoonIcon, SunIcon,SearchIcon } from '@chakra-ui/icons';
@@ -50,7 +51,7 @@ import { Spinner } from '@chakra-ui/react'
 const LinkItems = [
   { name: 'Nsh bhat',image:img1, message:"See ya", type:"sent",chatType:"group" },
   { name: 'jackash',  image:img2, message:"Fool ya", type:"received",chatType:"single"  },
-  { name: 'huiii', image:img3, message:"Bakayara ya", type:"sent",chatType:"group"  },
+  { name: 'huiii', image:img3, message:"Bakayara ya abkcjbaskjsbc  ajkbfclsjabckjsac lsbdkjfbdkjsbf", type:"sent",chatType:"group"  },
   { name: 'yuhs',  image:img4, message:"Komayaru ya", type:"received",chatType:"single"  },
   { name: 'banjs',  image:img5,message:"Baka ya", type:"sent",chatType:"group"  },
   { name: 'fagga', image:img6, message:"See ya", type:"received",chatType:"single"  },
@@ -97,6 +98,7 @@ export default function SideBar({
 const SidebarContent = ({ onClose, ...rest }) => {
   const[searching,setSearching] = React.useState(false);
   const[searchValue,setSearchValue] = React.useState("");
+  const color = useColorModeValue('gray.900', 'gray.400');
   return (
     <Box
       transition="3s ease"
@@ -106,15 +108,14 @@ const SidebarContent = ({ onClose, ...rest }) => {
       w={{ base: 'full', md: 80 }}
       pos="fixed"
       h="full"
-      overflowY="auto"
       {...rest}>
-      <Flex h="20" alignItems="center" mx="8" pb="1.6" justifyContent="space-between">
+      <Flex h="20" alignItems="center" mx="8" pb="1.6" justifyContent="space-between" pos="-webkit-sticky">
         <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
           Logo
         </Text>
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
-      <Box alignItems="center" mx="8" marginBottom={8}>
+      <Box alignItems="center" mx="8" marginBottom={8} h="30" pos="-webkit-sticky">
         <InputGroup>
           <Input placeholder="Search" value={searchValue} onChange={(event) =>setSearchValue(event.target.value)} />
           <InputRightElement h={'full'}>
@@ -131,23 +132,42 @@ const SidebarContent = ({ onClose, ...rest }) => {
           </InputRightElement>
         </InputGroup>
       </Box>
+      <Box  marginBottom={8}  overflowY="auto"
+      h="80%"
+      css={{
+        '&::-webkit-scrollbar': {
+          width: '4px',
+        },
+        '&::-webkit-scrollbar-track': {
+          width: '6px',
+        },
+        '&::-webkit-scrollbar-thumb': {
+          background: useColorModeValue('blue.200', 'blue.900'),
+          borderRadius: '24px',
+        },
+      }}>
       {LinkItems.map((link) => (
         <ChatItem key={link.name} name={link.name} image={link.image} message={link.message}>
           
         </ChatItem>
       ))}
+      </Box>
     </Box>
   );
 };
 
 
-const ChatItem = ({ image,name,message,children, ...rest }) => {
+const ChatItem = ({ image,name,message,children,type,...rest }) => {
+  const isSent = type === 'sent';
+  console.log(isSent);
+  let youColor = useColorModeValue("black","white");
   return (
     <Link href="#" style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
       <Flex
         align="center"
         p="4"
-        mx="4"
+        
+        h="20"
         borderRadius="lg"
         role="group"
         cursor="pointer"
@@ -160,15 +180,26 @@ const ChatItem = ({ image,name,message,children, ...rest }) => {
         {image && (
           <>
           <Flex>
-            <Avatar src={image} size="sm" mr="2" />
+            <Avatar src={image} size="lg" mr="2" />
             <Box>
               
-              <Text fontSize="lg" fontWeight="bold" ml="1">{name}</Text>
-              <Text fontSize="sm" color="gray.500" ml="1">{message}</Text>
+              <Text fontSize="lg" fontWeight="bolder" ml="1">{name}</Text>
+              
+              <Flex w={{base:"80",md:"40"}}>
+                <Box w={{base:"10%",md:"20%"}}>
+                  <Text fontSize="sm" fontWeight="bold" color={youColor}>You: </Text>
+                </Box>
+                <Box w={{base:"80%",md:"70%"}}>
+                  {message && <Text fontSize="sm" color="gray.600" fontWeight="normal" ml="1" isTruncated>{message}</Text>}
+                </Box>
+                <Box w="10%">
+                  <FiCheck size="1.2em" color={youColor} />
+                </Box>
+              </Flex>
+                        
+              
             </Box>
-            <Box>
-              <Icon name="chevron-right" size="12px" color="gray.500" />
-            </Box>
+            
 
           </Flex>
           </>

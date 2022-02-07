@@ -7,11 +7,13 @@ const ChatDetails =(props) =>{
     console.log("details",props.chatId);
     const value = props.chatId;
     return (
-        <Container>
-            <Flex>
-                <Text>hellow {value}</Text>
-            </Flex>
-        </Container>
+        <Box h="full">
+            <Container p={4}>
+                <Flex>
+                    <Text>hellow {value}</Text>
+                </Flex>
+            </Container>
+        </Box>
     );
 }
 export default ChatDetails;
