@@ -38,6 +38,7 @@ import {
   FiChevronDown,
   FiCheck
 } from 'react-icons/fi';
+import { Link as RouterLink } from 'react-router-dom';
 import { IconType } from 'react-icons';
 import { MoonIcon, SunIcon,SearchIcon } from '@chakra-ui/icons';
 import img1 from '../images/1.jpg';
@@ -49,15 +50,15 @@ import img5 from '../images/5.jpg';
 import { Spinner } from '@chakra-ui/react'
 
 const LinkItems = [
-  { name: 'Nsh bhat',image:img1, message:"See ya", type:"sent",chatType:"group" },
-  { name: 'jackash',  image:img2, message:"Fool ya", type:"received",chatType:"single"  },
-  { name: 'huiii', image:img3, message:"Bakayara ya abkcjbaskjsbc  ajkbfclsjabckjsac lsbdkjfbdkjsbf", type:"sent",chatType:"group"  },
-  { name: 'yuhs',  image:img4, message:"Komayaru ya", type:"received",chatType:"single"  },
-  { name: 'banjs',  image:img5,message:"Baka ya", type:"sent",chatType:"group"  },
-  { name: 'fagga', image:img6, message:"See ya", type:"received",chatType:"single"  },
-  { name: 'fagga', image:img6, message:"See ya", type:"received",chatType:"single"  },
-  { name: 'fagga', image:img6, message:"See ya", type:"received",chatType:"single"  },
-  { name: 'fagga', image:img6, message:"See ya", type:"received",chatType:"single"  },
+  { chatId:"82yedsmgksdmjsh",name: 'Nsh bhat',image:img1, message:"See ya", type:"sent",chatType:"group" },
+  { chatId:"82yehdsgdsgsdsh",name: 'jackash',  image:img2, message:"Fool ya", type:"received",chatType:"single"  },
+  { chatId:"82yedsgddajjsh",name: 'huiii', image:img3, message:"Bakayara ya abkcjbaskjsbc  ajkbfclsjabckjsac lsbdkjfbdkjsbf", type:"sent",chatType:"group"  },
+  { chatId:"8dsgsdgkdajjsh",name: 'yuhs',  image:img4, message:"Komayaru ya", type:"received",chatType:"single"  },
+  {chatId:"422yehqwkdajjsh", name: 'banjs',  image:img5,message:"Baka ya", type:"sent",chatType:"group"  },
+  { chatId:"8dterthqwkdajjsh",name: 'fagga', image:img6, message:"See ya", type:"received",chatType:"single"  },
+  { chatId:"35654etrgdkdajjsh",name: 'fagga', image:img6, message:"See ya", type:"received",chatType:"single"  },
+  { chatId:"84y36wetajjsh",name: 'fagga', image:img6, message:"See ya", type:"received",chatType:"single"  },
+  { chatId:"234qwkdajjsh",name: 'fagga', image:img6, message:"See ya", type:"received",chatType:"single"  },
 ];
 
 export default function SideBar({
@@ -147,7 +148,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
         },
       }}>
       {LinkItems.map((link) => (
-        <ChatItem key={link.name} name={link.name} image={link.image} message={link.message}>
+        <ChatItem key={link.chatId} chatId={link.chatId} name={link.name} image={link.image} message={link.message}>
           
         </ChatItem>
       ))}
@@ -157,12 +158,12 @@ const SidebarContent = ({ onClose, ...rest }) => {
 };
 
 
-const ChatItem = ({ image,name,message,children,type,...rest }) => {
+const ChatItem = ({ chatId,image,name,message,children,type,...rest }) => {
   const isSent = type === 'sent';
   console.log(isSent);
   let youColor = useColorModeValue("black","white");
   return (
-    <Link href="#" style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
+    <Link as={RouterLink} to={'/chat/'+chatId} style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
       <Flex
         align="center"
         p="4"
