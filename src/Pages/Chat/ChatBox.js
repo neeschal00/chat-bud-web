@@ -100,6 +100,32 @@ const ChatBox = ({chatId,chatImage,chatName,chatType}) => {
                     </Box>
                 </Box>
 
+                <Box  display="flex" flexDirection="column">
+                    <Box display="flex" justifyContent="flex-start">
+                        <Flex>
+
+                            <Avatar size="md" name="John Doe" src={chatImage} />
+                            <Box maxWidth="60" bgColor="blue.300" borderRadius="sm">
+                                { (chatType === "group")? <Text fontSize="md" fontWeight="bold" color={color} ml="1.5">{chatName}</Text>:null}
+                                <Text overflowWrap="break-word" fontSize="md" fontWeight="normal" color={color} ml="1.5">helloo mgfjhfgnv yufcudckudcyudckyjucuycuycyucyuuytgdtudtttttttttttttttttttttttttttttttttttttttt</Text>
+                            </Box>
+                        </Flex>
+                    </Box>
+                </Box>
+                <Box  display="flex" flexDirection="column">
+                    <Box display="flex" justifyContent="flex-end" mr="1.5">
+                        <Flex>
+
+                            <Avatar size="md" name="John Doe" src={chatImage} />
+                            <Box maxWidth="60">
+                                { (chatType === "group")? <Text fontSize="md" fontWeight="bold" color={color}>{chatName}</Text>:null}
+                                <Text overflowWrap="break-word" fontSize="md" fontWeight="normal" color={color}>helloo mgfjhfgnv yufcudckudcyudckyjucuycuycyucyuuytgdtudtttttttttttttttttttttttttttttttttttttttt</Text>
+                            </Box>
+                        </Flex>
+                    </Box>
+                </Box>
+
+
             </Box>
             <Box pos="-webkit-sticky">
 
