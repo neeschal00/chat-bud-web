@@ -9,7 +9,7 @@ const ChatBubble = ({message}) => {
             <Box  display="flex" flexDirection="column">
                 <Box display="flex" justifyContent="flex-end" mr="1.5">
                     <Flex>
-                        <Box maxWidth="60" bgColor="#8774E1" borderRadius="md" p="1.5" marginBottom="1.5" marginTop="0.5">
+                        <Box maxWidth="60" bgColor="#CBD5E0" borderRadius="md" p="1.5" marginBottom="1.5" marginTop="0.5">
                             { (message.chatType === "group")? <Text fontSize="md" fontWeight="bold">{message.chatName}</Text>:null}
                             <Text overflowWrap="break-word" fontSize="md" fontWeight="normal">helloo mgfjhfgnv yufcudckudcyudckyjucuycuycyucyuuytgdtudtttttttttttttttttttttttttttttttttttttttt</Text>
                         </Box>
