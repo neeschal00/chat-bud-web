@@ -10,9 +10,11 @@ import { Avatar,
     Textarea,
     Spacer,
     HStack,
+
     } from "@chakra-ui/react";
 
     import * as yup from 'yup';
+    
 
     import {
         TextareaControl,
@@ -21,7 +23,7 @@ import { Avatar,
 
       import { Formik, Field, Form, useField } from 'formik';
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useColorModeValue } from "@chakra-ui/react";
 import {FiSend} from 'react-icons/fi';
 const ChatBox = ({chatId,chatImage,chatName,chatType}) => {
@@ -69,7 +71,7 @@ const ChatBox = ({chatId,chatImage,chatName,chatType}) => {
                     width: '6px',
                     },
                     '&::-webkit-scrollbar-thumb': {
-                    background: useColorModeValue('blue.200', 'blue.900'),
+                    background: useColorModeValue('#2D3748', '#A0AEC0'),
                     borderRadius: '24px',
                     },
                 }}>

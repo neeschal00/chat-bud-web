@@ -143,7 +143,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
           width: '6px',
         },
         '&::-webkit-scrollbar-thumb': {
-          background: useColorModeValue('blue.200', 'blue.900'),
+          background: useColorModeValue('#2D3748', '#A0AEC0'),
           borderRadius: '24px',
         },
       }}>
