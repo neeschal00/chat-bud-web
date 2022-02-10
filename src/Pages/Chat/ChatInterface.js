@@ -19,7 +19,7 @@ export const ChatInterface = (props) => {
         <Box w="100%" h="100%">
             <Flex>
                 <ChatBox  chatName={chatDetails.chatName} chatId={chatDetails.chatName} chatImage={chatDetails.chatImage} chatType={chatDetails.chatType}/>
-                <ChatDetails chatName={chatDetails.chatName} chatId={chatDetails.chatId} chatImage={chatDetails.chatImage} chatType={chatDetails.chatType} />
+                <ChatDetails  chatName={chatDetails.chatName} chatId={chatDetails.chatId} chatImage={chatDetails.chatImage} chatType={chatDetails.chatType} />
             </Flex>
         </Box>
     );
