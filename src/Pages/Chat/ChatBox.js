@@ -24,7 +24,7 @@ import { Avatar,
 import { useState } from "react";
 import { useColorModeValue } from "@chakra-ui/react";
 import {FiSend} from 'react-icons/fi';
-const ChatBox = ({chatId,chatImage,chatName}) => {
+const ChatBox = ({chatId,chatImage,chatName,chatType}) => {
     console.log("chatbox",chatId);
     const [chatMessages, setChatMessages] = useState([
         {
@@ -59,6 +59,8 @@ const ChatBox = ({chatId,chatImage,chatName}) => {
             </Box>
             <Box overflowY="auto"
                 h="96"
+                display="flex"
+                flexDirection="column"
                 css={{
                     '&::-webkit-scrollbar': {
                     width: '4px',
@@ -71,6 +73,32 @@ const ChatBox = ({chatId,chatImage,chatName}) => {
                     borderRadius: '24px',
                     },
                 }}>
+                    
+
+                <Box  display="flex" flexDirection="column">
+                    <Box display="flex" justifyContent="flex-start">
+                        <Flex>
+
+                            <Avatar size="md" name="John Doe" src={chatImage} />
+                            <Box maxWidth="60" bgColor="blue.300" borderRadius="sm">
+                                { (chatType === "group")? <Text fontSize="md" fontWeight="bold" color={color} ml="1.5">{chatName}</Text>:null}
+                                <Text overflowWrap="break-word" fontSize="md" fontWeight="normal" color={color} ml="1.5">helloo mgfjhfgnv yufcudckudcyudckyjucuycuycyucyuuytgdtudtttttttttttttttttttttttttttttttttttttttt</Text>
+                            </Box>
+                        </Flex>
+                    </Box>
+                </Box>
+                <Box  display="flex" flexDirection="column">
+                    <Box display="flex" justifyContent="flex-end" mr="1.5">
+                        <Flex>
+
+                            <Avatar size="md" name="John Doe" src={chatImage} />
+                            <Box maxWidth="60">
+                                { (chatType === "group")? <Text fontSize="md" fontWeight="bold" color={color}>{chatName}</Text>:null}
+                                <Text overflowWrap="break-word" fontSize="md" fontWeight="normal" color={color}>helloo mgfjhfgnv yufcudckudcyudckyjucuycuycyucyuuytgdtudtttttttttttttttttttttttttttttttttttttttt</Text>
+                            </Box>
+                        </Flex>
+                    </Box>
+                </Box>
 
             </Box>
             <Box pos="-webkit-sticky">
