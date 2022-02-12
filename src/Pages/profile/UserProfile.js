@@ -1,9 +1,19 @@
+import { Box, Container, HStack,Image,Avatar} from "@chakra-ui/react";
+
+
 
 const UserProfile = () => {
 
     return(
         <>
-            <h1>User profile</h1>
+            <Box>
+                <Container>
+                    <Box>
+                        <Avatar src=""  />
+                    </Box>
+
+                </Container>
+            </Box>
         </>
     );
 }

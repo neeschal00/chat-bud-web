@@ -30,22 +30,22 @@ const ChatDetails =(props) =>{
                     <AccordionItem>
                         <h2>
                         <AccordionButton>
-                            <Box flex='1' textAlign='left'>
+                            <Box flex='1' textAlign='left' width="100%">
                                 Privacy and Support
                             </Box>
                             <AccordionIcon />
                         </AccordionButton>
                         </h2>
                         <AccordionPanel pb={4}>
-                            <Box>
+                            <Box width="100%">
                                 <Link href="#">
                                     <Text>
-                                        <Button leftIcon={<FiMinusCircle />} variantColor="blue">Block </Button>
+                                        <Button leftIcon={<FiMinusCircle />} variantColor="blue" width="100%">Block </Button>
                                     </Text>
                                 </Link>
                                 <Link href="#">
                                     <Text>
-                                        <Button leftIcon={<FiTrash2 />} variantColor="blue">Delete</Button>
+                                        <Button leftIcon={<FiTrash2 />} variantColor="blue" width="100%">Delete</Button>
                                     </Text>
                                 </Link>
                             </Box>
@@ -55,26 +55,26 @@ const ChatDetails =(props) =>{
                     <AccordionItem>
                         <h2>
                         <AccordionButton>
-                            <Box flex='1' textAlign='left'>
+                            <Box flex='1' textAlign='left' width="100%">
                             Shared Files
                             </Box>
                             <AccordionIcon />
                         </AccordionButton>
                         </h2>
-                        <AccordionPanel pb={4}>
+                        <AccordionPanel pb={4} width="100%">
                             Empty
                         </AccordionPanel>
                     </AccordionItem>
                     <AccordionItem>
                         <h2>
                         <AccordionButton>
-                            <Box flex='1' textAlign='left'>
+                            <Box flex='1' textAlign='left' width="100%">
                             Shared Media
                             </Box>
                             <AccordionIcon />
                         </AccordionButton>
                         </h2>
-                        <AccordionPanel pb={4}>
+                        <AccordionPanel pb={4} width="100%">
                             Empty
                         </AccordionPanel>
                     </AccordionItem>
