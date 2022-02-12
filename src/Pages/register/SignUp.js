@@ -13,12 +13,15 @@ import {
     Heading,
     Text,
     useColorModeValue,
+    useToast,
     Link,
   } from '@chakra-ui/react';
   import { useState, useEffect } from 'react';
   import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
   import { Formik, Field, Form, useField } from 'formik';
 import * as yup from 'yup';
+import axios from 'axios';
+import { Navigate } from 'react-router-dom';
 
 import {
     InputControl,
@@ -33,10 +36,11 @@ const validationSchema = yup.object({
         .min(8, 'Password is too short - should be 8 chars minimum.')
         // .max(12, 'Password should be in between 8-12 characters')
         .required('Password is required to register')
-        .matches(
-            /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
-            'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character',
-        ),
+        // .matches(
+        //     /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})/,
+        //     'Must Contain 8 Characters, One Uppercase, One Lowercase, One Number and One Special Case Character',
+        // ),
+
 })
 
 const PasswordField = ({ label,...props }) => {
@@ -67,15 +71,18 @@ const PasswordField = ({ label,...props }) => {
 
 const SignUpForm = () => {
     const [showPassword, setShowPassword] = useState(false);
+    const toast = useToast();
     return (
         <Formik 
-            initialValues={{    userName: '',
+            initialValues={{    username: '',
                                 email: '',  
                                 password:'',}}
             validationSchema={validationSchema}
             onSubmit={(values, { setSubmitting,resetForm }) => {
                 setSubmitting(true);
                 console.log(values);
+                
+
                 setSubmitting(false);
                 resetForm();
             }}>
@@ -84,7 +91,7 @@ const SignUpForm = () => {
                     
                 <Stack spacing={4}>
                 
-                <InputControl name='userName' label="Username" isRequired/>
+                <InputControl name='username' label="Username" isRequired/>
                 <InputControl name='email' label="Email" isRequired/>
                 {/* <InputControl name='password' label="Password" type="password" isRequired /> */}
                 <PasswordField name='password' label="Password" isRequired />

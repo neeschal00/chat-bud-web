@@ -7,6 +7,7 @@ import { Formik, Field, Form, useField } from 'formik';
 import { useToast } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import axios from 'axios';
+import { Navigate } from "react-router-dom";
 
 import {
     Flex,
@@ -73,7 +74,15 @@ const SignInForm = () => {
       onSubmit={(values, { setSubmitting, resetForm }) => {
         setSubmitting(true);
         console.log(values);
-        axios.post('http://127.0.0.1:8000/user/sign-in/',values).then((result)=>{
+        axios.post('http://127.0.0.1:3000/users/login',
+        {
+          headers:{
+              "Accept":"application/json",
+              "Content-Type":"application/json; charset=utf-8"
+          }},
+        JSON.stringify(values))
+        .then((result)=>{
+          console.log(result)
           localStorage.setItem("token",result.data.token)
           toast({
             title: 'Logged In successfully',
@@ -82,12 +91,13 @@ const SignInForm = () => {
             duration: 9000,
             isClosable: true,
           })
-
-        }).catch((err)=>{
-          console.log(err.data.token);
+          return <Navigate to="/" replace />
+        })
+        .catch((err)=>{
+          console.log(err);
           toast({
-            title: 'Couldn\'t Log In ',
-            description: "Your creds don\'t match",
+            title: "Couldn't Log In ",
+            description: "Your creds don't match",
             status: 'error',
             duration: 9000,
             isClosable: true,
@@ -97,7 +107,7 @@ const SignInForm = () => {
         resetForm();
       } }
       >
-      {({ values,setFieldValue,errors,tuched,isSubmitting, isValid, handleSubmit }) => (
+      {({ values,setFieldValue,errors,toched,isSubmitting, isValid, handleSubmit }) => (
         <Form>
           <Stack spacing={4}>
               <InputControl name="username" label="Username" isRequired />
@@ -109,7 +119,7 @@ const SignInForm = () => {
                   justify={'space-between'}>
                   <Checkbox>Remember me</Checkbox>
                   <Link color={'blue.400'}>Forgot password?</Link>
-                </Stack>
+                </Stack>{console.log("is valid",isValid)}
                 <SubmitButton
                   type="submit"
                   loadingText="Submitting"
