@@ -7,7 +7,7 @@ import { Formik, Field, Form, useField } from 'formik';
 import { useToast } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import axios from 'axios';
-import { Navigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 import {
     Flex,
@@ -32,6 +32,7 @@ import {
     const [field, meta] = useField(props)
     const errorText = meta.error && meta.touched ? meta.error : ''
     const [showPassword, setShowPassword] = useState(false);
+
     
     return (
         <FormControl id="password" isRequired isInvalid={!!meta.error && meta.touched} >
@@ -55,7 +56,7 @@ import {
     )
 }
 const validationSchema = yup.object({
-  userName: yup.string().max(50).required("Username is required to Sign In"),
+  username: yup.string().max(50).required("Username is required to Sign In"),
   password: yup
       .string()
       .required('Password is required to Sign In')
@@ -63,6 +64,7 @@ const validationSchema = yup.object({
 })
 const SignInForm = () => {
   const toast = useToast();
+  const navigate = useNavigate();
   return (
     <Formik
       initialValues={{  
@@ -74,13 +76,9 @@ const SignInForm = () => {
       onSubmit={(values, { setSubmitting, resetForm }) => {
         setSubmitting(true);
         console.log(values);
-        axios.post('http://127.0.0.1:3000/users/login',
-        {
-          headers:{
-              "Accept":"application/json",
-              "Content-Type":"application/json; charset=utf-8"
-          }},
-        JSON.stringify(values))
+        axios.post('http://localhost:3000/users/login',
+        
+        {username:values.username,password:values.password})
         .then((result)=>{
           console.log(result)
           localStorage.setItem("token",result.data.token)
@@ -91,7 +89,6 @@ const SignInForm = () => {
             duration: 9000,
             isClosable: true,
           })
-          return <Navigate to="/" replace />
         })
         .catch((err)=>{
           console.log(err);
@@ -103,8 +100,11 @@ const SignInForm = () => {
             isClosable: true,
           })
         })
+        
         setSubmitting(false);
         resetForm();
+        navigate("/");
+        window.location.reload(false);
       } }
       >
       {({ values,setFieldValue,errors,toched,isSubmitting, isValid, handleSubmit }) => (

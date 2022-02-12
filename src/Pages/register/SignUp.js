@@ -29,7 +29,7 @@ import {
   } from "formik-chakra-ui";
 
 const validationSchema = yup.object({
-    userName: yup.string().max(50).required(),
+    username: yup.string().max(50).required(),
     email: yup.string().email().required(),
     password: yup
         .string()
@@ -81,7 +81,31 @@ const SignUpForm = () => {
             onSubmit={(values, { setSubmitting,resetForm }) => {
                 setSubmitting(true);
                 console.log(values);
+                axios.post('http://localhost:3000/users/register',
                 
+                {username:values.username,email:values.email,password:values.password})
+                .then((result)=>{
+                console.log(result)
+                // localStorage.setItem("token",result.data.token)
+                toast({
+                    title: 'Account Created',
+                    description: "Your account is successfully registered",
+                    status: 'success',
+                    duration: 9000,
+                    isClosable: true,
+                })
+                return <Navigate to="/sign-in" replace />
+                })
+                .catch((err)=>{
+                console.log(err);
+                toast({
+                    title: "Couldn't register",
+                    description: err.data.message,
+                    status: 'error',
+                    duration: 9000,
+                    isClosable: true,
+                })
+                })
 
                 setSubmitting(false);
                 resetForm();
