@@ -4,6 +4,7 @@ import {
 } from "formik-chakra-ui";
 
 import { Formik, Field, Form, useField } from 'formik';
+import { useToast } from "@chakra-ui/react";
 import { ViewIcon, ViewOffIcon } from '@chakra-ui/icons';
 import axios from 'axios';
 
@@ -30,6 +31,7 @@ import {
     const [field, meta] = useField(props)
     const errorText = meta.error && meta.touched ? meta.error : ''
     const [showPassword, setShowPassword] = useState(false);
+    
     return (
         <FormControl id="password" isRequired isInvalid={!!meta.error && meta.touched} >
             <FormLabel>{label}</FormLabel>
@@ -59,6 +61,7 @@ const validationSchema = yup.object({
       
 })
 const SignInForm = () => {
+  const toast = useToast();
   return (
     <Formik
       initialValues={{  
@@ -66,9 +69,30 @@ const SignInForm = () => {
         password: '',
         rememberMe: false,}}
       validationSchema={validationSchema}
+      
       onSubmit={(values, { setSubmitting, resetForm }) => {
         setSubmitting(true);
         console.log(values);
+        axios.post('http://127.0.0.1:8000/user/sign-in/',values).then((result)=>{
+          localStorage.setItem("token",result.data.token)
+          toast({
+            title: 'Logged In successfully',
+            description: "Your credentials matched with stored data",
+            status: 'success',
+            duration: 9000,
+            isClosable: true,
+          })
+
+        }).catch((err)=>{
+          console.log(err.data.token);
+          toast({
+            title: 'Couldn\'t Log In ',
+            description: "Your creds don\'t match",
+            status: 'error',
+            duration: 9000,
+            isClosable: true,
+          })
+        })
         setSubmitting(false);
         resetForm();
       } }
