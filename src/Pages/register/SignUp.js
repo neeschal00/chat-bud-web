@@ -21,7 +21,7 @@ import {
   import { Formik, Field, Form, useField } from 'formik';
 import * as yup from 'yup';
 import axios from 'axios';
-import { Navigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import {
     InputControl,
@@ -72,6 +72,7 @@ const PasswordField = ({ label,...props }) => {
 const SignUpForm = () => {
     const [showPassword, setShowPassword] = useState(false);
     const toast = useToast();
+    const navigate = useNavigate();
     return (
         <Formik 
             initialValues={{    username: '',
@@ -94,7 +95,7 @@ const SignUpForm = () => {
                     duration: 9000,
                     isClosable: true,
                 })
-                return <Navigate to="/sign-in" replace />
+                
                 })
                 .catch((err)=>{
                 console.log(err);
@@ -106,9 +107,10 @@ const SignUpForm = () => {
                     isClosable: true,
                 })
                 })
-
+                
                 setSubmitting(false);
                 resetForm();
+                navigate("/sign-in");
             }}>
             {({ values,setFieldValue,errors,touched,isSubmitting, isValid, handleSubmit }) => (
                 <Form> 
