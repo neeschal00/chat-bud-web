@@ -53,24 +53,51 @@ const LoggedOut = (props) => {
   return(
     <>
       <NavBar />
-      <Routesl />
+      <Routesl isloggedin={props.isloggedin} />
       <Foot />
     </>
   );
 }
+const checkValidToken = () => {
+  const token = localStorage.getItem('token');
+  console.log("logged in token: ",token);
+}
 
 function App() {
-  const [loggedIn,SetLoggedIn] = useState(true);
-  return (
-    <ThemeProvider theme={theme}>
+  const [loggedIn,SetLoggedIn] = useState(false);
+  if(checkValidToken()){
+    SetLoggedIn(true);
+  }
+  if(loggedIn){
+    return(
+      <ThemeProvider theme={theme}>
       <Router>
         <div className="App"> 
-            {loggedIn ? <LoggedIn /> : <LoggedOut/>}
+          <SideBar children={<Routesl isloggedin={loggedIn}/>} />
         </div>
       </Router>
       
     </ThemeProvider>
-  );
+    );
+
+  }
+  else{
+    return(
+      <ThemeProvider theme={theme}>
+      <Router>
+        <div className="App"> 
+        
+              
+          <NavBar />
+          <Routesl isloggedin={loggedIn} />
+          <Foot />
+              
+        </div>
+      </Router>
+      
+    </ThemeProvider>
+    );
+  }
 }
 
 export default App;

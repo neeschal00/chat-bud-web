@@ -76,7 +76,7 @@ const SignInForm = () => {
       {({ values,setFieldValue,errors,tuched,isSubmitting, isValid, handleSubmit }) => (
         <Form>
           <Stack spacing={4}>
-              <InputControl name="userName" label="Username" isRequired />
+              <InputControl name="username" label="Username" isRequired />
               <PasswordField name="password" label="Password" />
               <Stack spacing={10}>
                 <Stack

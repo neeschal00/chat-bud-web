@@ -98,9 +98,9 @@ import { NavLink} from 'react-router-dom';
               fontSize={'sm'}
               fontWeight={600}
               color={'white'}
-              bg={'pink.400'}
+              bg={'purple.400'}
               _hover={{
-                bg: 'pink.300',
+                bg: 'purple.300',
               }}>
               Sign Up
             </Button>
