@@ -48,6 +48,8 @@ import img4 from '../images/4.jpg';
 import img6 from '../images/6.jpg';
 import img5 from '../images/5.jpg';
 import { Spinner } from '@chakra-ui/react'
+import { useState,useEffect } from 'react';
+import axios from 'axios';
 
 const LinkItems = [
   { chatId:"82yedsmgksdmjsh",name: 'Nsh bhat',image:img1, message:"See ya", type:"sent",chatType:"group" },
@@ -63,8 +65,10 @@ const LinkItems = [
 
 export default function SideBar({
   children,
+  userData
 }) {
-  const { isOpen, onOpen, onClose } = useDisclosure();
+  const { isOpen,onOpen, onClose } = useDisclosure();
+  
   return (
     <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')}>
       <SidebarContent
@@ -84,7 +88,7 @@ export default function SideBar({
         </DrawerContent>
       </Drawer>
       {/* mobilenav */}
-      <MobileNav onOpen={onOpen} />
+      <MobileNav userData={userData}  onOpen={onOpen} />
       <Box ml={{ base: 0, md: 80 }} p="4">
         {children}
 
@@ -213,7 +217,7 @@ const ChatItem = ({ chatId,image,name,message,children,type,...rest }) => {
 };
 
 
-const MobileNav = ({ onOpen, ...rest }) => {
+const MobileNav = ({ userData,onOpen, ...rest }) => {
   const { isOpen, onToggle } = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();
   return (
@@ -262,9 +266,8 @@ const MobileNav = ({ onOpen, ...rest }) => {
               <HStack>
                 <Avatar
                   size={'sm'}
-                  src={
-                    'https://images.unsplash.com/photo-1619946794135-5bc917a27793?ixlib=rb-0.3.5&q=80&fm=jpg&crop=faces&fit=crop&h=200&w=200&s=b616b2c5b373a80ffc9636ba24f7a4a9'
-                  }
+                  name={userData.userInfo.username}
+                  src={"http://localhost:3000/"+userData.userInfo.profile_picture}
                 />
                 
                 <VStack
@@ -272,9 +275,9 @@ const MobileNav = ({ onOpen, ...rest }) => {
                   alignItems="flex-start"
                   spacing="1px"
                   ml="2">
-                  <Text fontSize="sm">Justina Clark</Text>
+                  <Text fontSize="sm">{userData.userInfo.username}</Text>
                   <Text fontSize="xs" color="gray.600">
-                    Admin
+                   {userData.userInfo.isAdmin ? 'Admin' : 'User'}
                   </Text>
                 </VStack>
                 <Box display={{ base: 'none', md: 'flex' }}>

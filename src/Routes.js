@@ -10,10 +10,9 @@ const Routesl = ( {isloggedin}) => {
     if(isloggedin){
         return(
         <Routes>
-            
-            
             <Route exact path="/chat/:id" element={<ChatInterface />} />
             {/* <Route exact path="/" element={<ChatInterface />} /> */}
+            <Route path="/" element={<ChatInterface />} />
         </Routes>
         )
     }

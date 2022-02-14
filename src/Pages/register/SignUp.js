@@ -27,6 +27,7 @@ import {
     InputControl,
     SubmitButton,
   } from "formik-chakra-ui";
+import { BaseUrl } from '../../api';
 
 const validationSchema = yup.object({
     username: yup.string().max(50).required(),
@@ -82,7 +83,7 @@ const SignUpForm = () => {
             onSubmit={(values, { setSubmitting,resetForm }) => {
                 setSubmitting(true);
                 console.log(values);
-                axios.post('http://localhost:3000/users/register',
+                axios.post(BaseUrl+"users/register",
                 
                 {username:values.username,email:values.email,password:values.password})
                 .then((result)=>{

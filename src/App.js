@@ -8,7 +8,9 @@ import { useLocation } from 'react-router-dom';
 import Routesl from './Routes'
 import SideBar from './Components/SideBar';
 import { UserDashBoard } from './Pages/Chat/UserDashboard';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import axios from 'axios';
+import { BaseUrl } from './api';
 
 
 const Header = () => {
@@ -44,9 +46,10 @@ const Foot = () => {
     );
   }
 }
-const LoggedIn = (props) =>{
+const LoggedIn = ({isloggedin,SetLoggedIn,userData}) =>{
+  
   return(
-    <SideBar children={<Routesl/>} />
+    <SideBar  SetLoggedIn={SetLoggedIn} userData={userData} children={<Routesl isloggedin={isloggedin}/>} />
   );
 }
 const LoggedOut = ({isloggedin}) => {
@@ -66,12 +69,33 @@ const checkValidToken = () => {
 
 function App() {
   const [loggedIn,SetLoggedIn] = useState(checkValidToken());
+  const [user,SetUser] = useState(null);
+
+    useEffect(() => {
+      if(loggedIn){
+        axios.get(BaseUrl +"users/profile", {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+          }
+        }).then(res => {
+          console.log("hellow: respnse",res.data);
+          console.log(typeof res.data);
+          SetUser({"userInfo":res.data});
+        }).catch(err => {
+          console.log(err);
+          localStorage.removeItem('token');
+          
+        })
+      }
+      console.log("logged in: ",loggedIn);
+      
+    },[loggedIn]);
   
   return (
     <ThemeProvider theme={theme}>
       <Router>
         <div className="App"> 
-            {loggedIn ? <LoggedIn isloggedin={loggedIn} /> : <LoggedOut/>}
+            {loggedIn ? <LoggedIn isloggedin={loggedIn} SetLoggedIn={SetLoggedIn} userData={user}/> : <LoggedOut/>}
         </div>
       </Router>
       

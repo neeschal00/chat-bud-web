@@ -27,6 +27,7 @@ import {
   } from '@chakra-ui/react';
   import { useState, useEffect } from 'react';
   import * as yup from 'yup';
+import { BaseUrl } from "../../api";
 
   const PasswordField = ({ label,...props }) => {
     const [field, meta] = useField(props)
@@ -76,7 +77,7 @@ const SignInForm = () => {
       onSubmit={(values, { setSubmitting, resetForm }) => {
         setSubmitting(true);
         console.log(values);
-        axios.post('http://localhost:3000/users/login',
+        axios.post(BaseUrl+"users/login",
         
         {username:values.username,password:values.password})
         .then((result)=>{
