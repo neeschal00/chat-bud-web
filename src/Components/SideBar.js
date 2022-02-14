@@ -66,17 +66,7 @@ const LinkItems = [
 ];
 
 
-const fetchData = async () => {
-  const token = localStorage.getItem('token');
-  const decoded = jwt_decode(token);
-  const userId = decoded.userId;
-  const res = await axios.get(BaseUrl+'users/profile',{
-  headers: {
-    Authorization: `Bearer ${token}`,
-  }});
-  console.log(res);
-  return res.data;
-}
+
 
 
 export default function SideBar({
@@ -86,20 +76,31 @@ export default function SideBar({
 }) {
   const { isOpen,onOpen, onClose } = useDisclosure();
   const [isLoading,setIsLoading] = useState(true);
-  const [user,setUser] = useState({});
+  const [user,setUser] = useState(null);
   useEffect(async () => {
     
     if(isloggedin){
-      const decodedToken = jwt_decode(isloggedin);
-      const data = await fetchData();
+      async function fetchData() {
+        const token = localStorage.getItem('token');
+        const decoded = jwt_decode(token);
+        const userId = decoded.userId;
+        const res = await axios.get(BaseUrl+'users/profile',{
+        headers: {
+          Authorization: `Bearer ${token}`,
+        }});
+        console.log(res);
+        setUser(res.data);
+        return res.data;
+      }
+      fetchData();
     }
     console.log("logged in: ",isloggedin);
     
-  },[]);
+  },[isloggedin]);
   
   return (
     <>
-    {isLoading && <Spinner size="xl" />}
+    {/* {isLoading && <Spinner size="xl" />} */}
     <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')}>
       <SidebarContent
         onClose={() => onClose}
@@ -118,7 +119,8 @@ export default function SideBar({
         </DrawerContent>
       </Drawer>
       {/* mobilenav */}
-      <MobileNav userData={user}  onOpen={onOpen} />
+      {user && <MobileNav userData={user}  onOpen={onOpen} />}
+      
       <Box ml={{ base: 0, md: 80 }} p="4">
         {children}
 
@@ -297,7 +299,7 @@ const MobileNav = ({ userData,onOpen, ...rest }) => {
               <HStack>
                 <Avatar
                   size={'sm'}
-                  // name={userData.userInfo.username}
+                  name={userData.userInfo.username}
                   // src={"http://localhost:3000/"+userData.userInfo.profile_picture}
                 />
                 
