@@ -19,26 +19,29 @@ import {
   InputGroup,
   Input,
   InputRightElement,
+  AlertDialogHeader,
+  AlertDialog,
+  AlertDialogFooter,
 
-  FlexProps,
+  
   Menu,
   MenuButton,
   MenuDivider,
   MenuItem,
   MenuList,
+  AlertDialogOverlay,
+  AlertDialogContent,
+  AlertDialogBody,
+
 } from '@chakra-ui/react';
 import {
-  FiHome,
-  FiTrendingUp,
-  FiCompass,
-  FiStar,
-  FiSettings,
+ 
   FiMenu,
   FiBell,
   FiChevronDown,
   FiCheck
 } from 'react-icons/fi';
-import { Link as RouterLink } from 'react-router-dom';
+import { Link as RouterLink, useNavigate } from 'react-router-dom';
 import { IconType } from 'react-icons';
 import { MoonIcon, SunIcon,SearchIcon } from '@chakra-ui/icons';
 import img1 from '../images/1.jpg';
@@ -48,7 +51,7 @@ import img4 from '../images/4.jpg';
 import img6 from '../images/6.jpg';
 import img5 from '../images/5.jpg';
 import { Spinner } from '@chakra-ui/react'
-import { useState,useEffect } from 'react';
+import { useState,useEffect ,useRef} from 'react';
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 import { BaseUrl } from '../api';
@@ -249,10 +252,26 @@ const ChatItem = ({ chatId,image,name,message,children,type,...rest }) => {
   );
 };
 
+// const SignOut = () => {
+  
+//   const navigate = useNavigate();
+//   const onSignOut = async () => {
+//     localStorage.removeItem('token');
+//     navigate('/');
+//     window.location.reload(false);
+//   };
+//   onSignOut();
+  
+// };
+
 
 const MobileNav = ({ userData,onOpen, ...rest }) => {
   const { isOpen, onToggle } = useDisclosure();
   const { colorMode, toggleColorMode } = useColorMode();
+  const [isOpena, setIsOpenA] = useState(false)
+  const onClose = () => setIsOpenA(false)
+  const cancelRef = useRef()
+
   return (
     <Flex
       ml={{ base: 0, md: 60 }}
@@ -300,7 +319,7 @@ const MobileNav = ({ userData,onOpen, ...rest }) => {
                 <Avatar
                   size={'sm'}
                   name={userData.userInfo.username}
-                  // src={"http://localhost:3000/"+userData.userInfo.profile_picture}
+                  src={"http://localhost:3000/"+userData.userInfo.profile_picture}
                 />
                 
                 <VStack
@@ -308,10 +327,9 @@ const MobileNav = ({ userData,onOpen, ...rest }) => {
                   alignItems="flex-start"
                   spacing="1px"
                   ml="2">
-                  {/* <Text fontSize="sm">{userData.userInfo.username}</Text> */}
+                  <Text fontSize="sm" fontWeight={"bold"}>{userData.userInfo.username}</Text>
                   <Text fontSize="xs" color="gray.600">
-                   {/* {userData.userInfo.isAdmin ? 'Admin' : 'User'} */}
-                   user
+                   {userData.userInfo.isAdmin ? 'Admin' : 'User'}
                   </Text>
                 </VStack>
                 <Box display={{ base: 'none', md: 'flex' }}>
@@ -327,7 +345,38 @@ const MobileNav = ({ userData,onOpen, ...rest }) => {
               <MenuItem>Settings</MenuItem>
               <MenuItem>Billing</MenuItem>
               <MenuDivider />
-              <MenuItem>Sign out</MenuItem>
+              <MenuItem onClick={()=>{setIsOpenA(true)}}>Sign out</MenuItem>
+              <AlertDialog
+                isOpen={isOpena}
+                leastDestructiveRef={cancelRef}
+                onClose={onClose}
+              >
+                <AlertDialogOverlay>
+                  <AlertDialogContent>
+                    <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+                      Sign Out
+                    </AlertDialogHeader>
+
+                    <AlertDialogBody>
+                      Are you sure You want to sign out?
+                    </AlertDialogBody>
+
+                    <AlertDialogFooter>
+                      <Button ref={cancelRef} onClick={onClose}>
+                        Cancel
+                      </Button>
+                      <Button colorScheme='red' onClick={async()=>{
+                       
+                          localStorage.removeItem('token');
+                          window.location.reload(false);
+                      }} ml={3}>
+                        Sign Out
+                      </Button>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialogOverlay>
+              </AlertDialog>
+
             </MenuList>
           </Menu>
         </Flex>
