@@ -77,7 +77,7 @@ export default function SideBar({
   const { isOpen,onOpen, onClose } = useDisclosure();
   const [isLoading,setIsLoading] = useState(true);
   const [user,setUser] = useState(null);
-  useEffect(async () => {
+  useEffect(() => {
     
     if(isloggedin){
       async function fetchData() {
@@ -88,8 +88,8 @@ export default function SideBar({
         headers: {
           Authorization: `Bearer ${token}`,
         }});
-        console.log(res);
-        setUser(res.data);
+        console.log(res.data);
+        setUser({"userInfo":res.data});
         return res.data;
       }
       fetchData();
