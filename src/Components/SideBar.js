@@ -50,6 +50,8 @@ import img5 from '../images/5.jpg';
 import { Spinner } from '@chakra-ui/react'
 import { useState,useEffect } from 'react';
 import axios from 'axios';
+import jwt_decode from 'jwt-decode';
+import { BaseUrl } from '../api';
 
 const LinkItems = [
   { chatId:"82yedsmgksdmjsh",name: 'Nsh bhat',image:img1, message:"See ya", type:"sent",chatType:"group" },
@@ -63,13 +65,41 @@ const LinkItems = [
   { chatId:"234qwkdajjsh",name: 'fagga', image:img6, message:"See ya", type:"received",chatType:"single"  },
 ];
 
+
+const fetchData = async () => {
+  const token = localStorage.getItem('token');
+  const decoded = jwt_decode(token);
+  const userId = decoded.userId;
+  const res = await axios.get(BaseUrl+'users/profile',{
+  headers: {
+    Authorization: `Bearer ${token}`,
+  }});
+  console.log(res);
+  return res.data;
+}
+
+
 export default function SideBar({
   children,
-  userData
+  isloggedin,
+  SetLoggedIn
 }) {
   const { isOpen,onOpen, onClose } = useDisclosure();
+  const [isLoading,setIsLoading] = useState(true);
+  const [user,setUser] = useState({});
+  useEffect(async () => {
+    
+    if(isloggedin){
+      const decodedToken = jwt_decode(isloggedin);
+      const data = await fetchData();
+    }
+    console.log("logged in: ",isloggedin);
+    
+  },[]);
   
   return (
+    <>
+    {isLoading && <Spinner size="xl" />}
     <Box minH="100vh" bg={useColorModeValue('gray.100', 'gray.900')}>
       <SidebarContent
         onClose={() => onClose}
@@ -88,16 +118,17 @@ export default function SideBar({
         </DrawerContent>
       </Drawer>
       {/* mobilenav */}
-      <MobileNav userData={userData}  onOpen={onOpen} />
+      <MobileNav userData={user}  onOpen={onOpen} />
       <Box ml={{ base: 0, md: 80 }} p="4">
         {children}
 
 
       </Box>
     </Box>
+    </>
+    
   );
 }
-
 
 
 const SidebarContent = ({ onClose, ...rest }) => {
@@ -266,8 +297,8 @@ const MobileNav = ({ userData,onOpen, ...rest }) => {
               <HStack>
                 <Avatar
                   size={'sm'}
-                  name={userData.userInfo.username}
-                  src={"http://localhost:3000/"+userData.userInfo.profile_picture}
+                  // name={userData.userInfo.username}
+                  // src={"http://localhost:3000/"+userData.userInfo.profile_picture}
                 />
                 
                 <VStack
@@ -275,9 +306,10 @@ const MobileNav = ({ userData,onOpen, ...rest }) => {
                   alignItems="flex-start"
                   spacing="1px"
                   ml="2">
-                  <Text fontSize="sm">{userData.userInfo.username}</Text>
+                  {/* <Text fontSize="sm">{userData.userInfo.username}</Text> */}
                   <Text fontSize="xs" color="gray.600">
-                   {userData.userInfo.isAdmin ? 'Admin' : 'User'}
+                   {/* {userData.userInfo.isAdmin ? 'Admin' : 'User'} */}
+                   user
                   </Text>
                 </VStack>
                 <Box display={{ base: 'none', md: 'flex' }}>
