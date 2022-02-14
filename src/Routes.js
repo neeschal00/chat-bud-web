@@ -2,7 +2,7 @@ import { Route,Routes, useParams, useLocation} from 'react-router-dom'
 import { SignUp } from './Pages/register/SignUp';
 import { SignIn } from './Pages/register/SignIn';
 import { ChatInterface } from './Pages/Chat/ChatInterface';
-
+import GenericNotFound from './Components/GenericNotFound';
 
 const Routesl = ( {isloggedin}) => {  
     const params = useParams();
@@ -21,6 +21,10 @@ const Routesl = ( {isloggedin}) => {
             <Route exact path="/sign-in" element={<SignIn />} />
             <Route exact path="/sign-up" element={<SignUp />} />
             {/* <Route exact path="/about" element={} /> */}
+            <Route
+                path="*"
+                element={<GenericNotFound />}
+            />
         </Routes>
         
         )
