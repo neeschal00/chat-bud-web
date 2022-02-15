@@ -55,6 +55,7 @@ import { useState,useEffect ,useRef} from 'react';
 import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 import { BaseUrl } from '../api';
+import {io, Socket} from 'socket.io-client';
 
 const LinkItems = [
   { chatId:"82yedsmgksdmjsh",name: 'Nsh bhat',image:img1, message:"See ya", type:"sent",chatType:"group" },
@@ -80,6 +81,11 @@ export default function SideBar({
   const { isOpen,onOpen, onClose } = useDisclosure();
   const [isLoading,setIsLoading] = useState(true);
   const [user,setUser] = useState(null);
+  const socket = useRef(io("http://localhost:3000",{query:`token=${localStorage.getItem("token")}`}));
+
+  
+  
+
   useEffect(() => {
     
     if(isloggedin){
@@ -100,6 +106,17 @@ export default function SideBar({
     console.log("logged in: ",isloggedin);
     
   },[isloggedin]);
+
+  useEffect(() => {
+    socket.current.on("connection",()=>{
+      console.log("connected");
+    });
+    socket.current.on("userid", (userId) => {
+      console.log("userid is ",userId);
+      // setUser({"userId":userId});
+    });
+  } ,[isloggedin]);
+
   
   return (
     <>
