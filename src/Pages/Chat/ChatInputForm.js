@@ -1,4 +1,5 @@
 import * as yup from 'yup';
+import InputEmoji from "react-input-emoji";
     
 
     import {
@@ -27,9 +28,14 @@ const validationSchema = yup.object({
     message: yup.string().required('Message is required'),
         
   })
+
+
 const ChatInputForm = (props) =>{
     const iborder = useColorModeValue("gray.400","gray.200");
-
+    const [message,setMessage] = useState('');
+    function handleOnEnter(message){
+      console.log("enter",message);
+    }
     return(
         <Formik
         initialValues={{  
@@ -48,7 +54,8 @@ const ChatInputForm = (props) =>{
         {({ values,setFieldValue,errors,tuched,isSubmitting, isValid, handleSubmit }) => (
         <Form>
           <HStack spacing={2}>
-          <TextAreaField placeholder="Type a message" resize="none" name="message" border='1px' borderColor={iborder} borderRadius="md" />
+            <InputEmoji value={message} onChange={setMessage} name="message" border='1px' height={80} borderRadius={10} borderColor={iborder} cleanOnEnter onEnter={handleSubmit} placeholder="Type a message" />
+          {/* <TextAreaField placeholder="Type a message" resize="none" name="message" border='1px' borderColor={iborder} borderRadius="md" /> */}
                 <SubmitButton
                   type="submit"
                   loadingText="Submitting"
