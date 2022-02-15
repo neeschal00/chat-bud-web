@@ -54,7 +54,11 @@ const ChatInputForm = (props) =>{
         {({ values,setFieldValue,errors,tuched,isSubmitting, isValid, handleSubmit }) => (
         <Form>
           <HStack spacing={2}>
-            <InputEmoji value={message} onChange={setMessage} name="message" border='1px' height={80} borderRadius={10} borderColor={iborder} cleanOnEnter onEnter={handleSubmit} placeholder="Type a message" />
+            <InputEmoji value={message} 
+            onChange={setMessage} 
+            name="message" 
+            border='1px' 
+            height="3rem" borderRadius={10} borderColor={iborder} cleanOnEnter placeholder="Type a message" />
           {/* <TextAreaField placeholder="Type a message" resize="none" name="message" border='1px' borderColor={iborder} borderRadius="md" /> */}
                 <SubmitButton
                   type="submit"
