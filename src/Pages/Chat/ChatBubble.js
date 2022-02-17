@@ -1,5 +1,9 @@
 import { Box,Flex,Text,Avatar, useColorModeValue } from "@chakra-ui/react";
 
+const ImageMessage = ({message}) => {
+    
+}
+
 
 const ChatBubble = ({message}) => {
     console.log(message);

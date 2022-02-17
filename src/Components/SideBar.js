@@ -10,10 +10,10 @@ import {
   VStack,
   Icon,
   useColorModeValue,
-  Link,
   Drawer,
   DrawerContent,
   Text,
+  Link,
   useDisclosure,
   useColorMode,
   InputGroup,
@@ -81,18 +81,18 @@ export default function SideBar({
   const { isOpen,onOpen, onClose } = useDisclosure();
   const [isLoading,setIsLoading] = useState(true);
   const [user,setUser] = useState(null);
-  const socket = useRef(io("http://localhost:3000",{query:`token=${localStorage.getItem("token")}`}));
+  const token = localStorage.getItem('token');
+  const socket = useRef(io("http://localhost:3000",{query:`token=${token}`}));
 
   
   
-
   useEffect(() => {
     
     if(isloggedin){
+      const decoded = jwt_decode(token);
+      const userId = decoded.userId;
       async function fetchData() {
-        const token = localStorage.getItem('token');
-        const decoded = jwt_decode(token);
-        const userId = decoded.userId;
+        
         const res = await axios.get(BaseUrl+'users/profile',{
         headers: {
           Authorization: `Bearer ${token}`,
@@ -105,17 +105,18 @@ export default function SideBar({
     }
     console.log("logged in: ",isloggedin);
     
-  },[isloggedin]);
+  },[isloggedin,token]);
 
-  useEffect(() => {
-    socket.current.on("connection",()=>{
-      console.log("connected");
-    });
-    socket.current.on("userid", (userId) => {
-      console.log("userid is ",userId);
-      // setUser({"userId":userId});
-    });
-  } ,[isloggedin]);
+  // useEffect(() => {
+  //   // socket.current.emit('addUser',user.userInfo._id);
+  //   socket.current.on("connection",()=>{
+  //     console.log("connected");
+  //   });
+  //   socket.current.on("userid", (userID) => {
+  //     console.log("userid is ",userID);
+  //     // setUser({"userId":userId});
+  //   });
+  // } ,[user.userInfo._id]);
 
   
   return (
@@ -336,7 +337,11 @@ const MobileNav = ({ userData,onOpen, ...rest }) => {
                 <Avatar
                   size={'sm'}
                   name={userData.userInfo.username}
-                  src={"http://localhost:3000/"+userData.userInfo.profile_picture}
+                  src={
+                    userData.userInfo.profile_picture.startsWith("http:")
+                  ? userData.userInfo.profile_picture 
+                  : "http://localhost:3000/"+userData.userInfo.profile_picture
+                }
                 />
                 
                 <VStack
@@ -358,7 +363,7 @@ const MobileNav = ({ userData,onOpen, ...rest }) => {
               bg={useColorModeValue('white', 'gray.900')}
               opacity={isOpen ? 1 : 0}
               borderColor={useColorModeValue('gray.200', 'gray.700')}>
-              <MenuItem>Profile</MenuItem>
+              <Link as={RouterLink} to={`/profile/${userData.userInfo._id}`} state={userData.userInfo}><MenuItem>Profile</MenuItem></Link>
               <MenuItem>Settings</MenuItem>
               <MenuItem>Billing</MenuItem>
               <MenuDivider />

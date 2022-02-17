@@ -3,6 +3,8 @@ import { SignUp } from './Pages/register/SignUp';
 import { SignIn } from './Pages/register/SignIn';
 import { ChatInterface } from './Pages/Chat/ChatInterface';
 import GenericNotFound from './Components/GenericNotFound';
+import UserProfile from './Pages/profile/UserProfile';
+import Test from './Pages/About/Test';
 
 const Routesl = ( {isloggedin}) => {  
     const params = useParams();
@@ -11,8 +13,11 @@ const Routesl = ( {isloggedin}) => {
         return(
         <Routes>
             <Route exact path="/chat/:id" element={<ChatInterface />} />
+            <Route exact path="/profile/:id" element={<UserProfile />} />
             {/* <Route exact path="/" element={<ChatInterface />} /> */}
+            <Route path="/test" element={<Test />} />
             <Route path="/" element={<ChatInterface />} />
+            <Route path="*" element={<GenericNotFound />} />
         </Routes>
         )
     }

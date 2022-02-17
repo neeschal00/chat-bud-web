@@ -18,7 +18,7 @@ const TextAreaField = ({ label,...props }) => {
     
     return (
         <FormControl id="message" isRequired isInvalid={!!meta.error && meta.touched} >
-            <Field as={Textarea} {...field} {...props} />
+            <Field as={InputEmoji} {...field} {...props} />
             {!!errorText && <FormErrorMessage>{errorText}</FormErrorMessage>}
         </FormControl>
     )
@@ -55,17 +55,15 @@ const ChatInputForm = (props) =>{
         <Form>
           <HStack spacing={2}>
             {/* <InputEmoji value={message} 
+            
+            backgroundColor={iborder}
             onChange={setMessage} 
             name="message" 
             border='1px' 
-            height="3rem" borderRadius={10} borderColor={iborder} cleanOnEnter placeholder="Type a message" /> */}
-          <TextAreaField 
-          placeholder="Type a message" 
-          resize="none" 
-          name="message" 
-          border='1px' 
-          borderColor={iborder} 
-          borderRadius="md" />
+            borderRadius={10} borderColor={iborder} cleanOnEnter placeholder="Type a message" /> */}
+            
+                <TextAreaField onChange={setMessage} name="message" border='1px' borderColor={iborder} borderRadius={10} />
+        
                 <SubmitButton
                   type="submit"
                   loadingText="Submitting"
