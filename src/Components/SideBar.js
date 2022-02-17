@@ -107,16 +107,16 @@ export default function SideBar({
     
   },[isloggedin,token]);
 
-  // useEffect(() => {
-  //   // socket.current.emit('addUser',user.userInfo._id);
-  //   socket.current.on("connection",()=>{
-  //     console.log("connected");
-  //   });
-  //   socket.current.on("userid", (userID) => {
-  //     console.log("userid is ",userID);
-  //     // setUser({"userId":userId});
-  //   });
-  // } ,[user.userInfo._id]);
+  useEffect(() => {
+    // socket.current.emit('addUser',user.userInfo._id);
+    socket.current.on("connection",()=>{
+      console.log("connected");
+    });
+    socket.current.on("userid", (userID) => {
+      console.log("userid is ",userID);
+      // setUser({"userId":userId});
+    });
+  } ,[user.userInfo._id]);
 
   
   return (

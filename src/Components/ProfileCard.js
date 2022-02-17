@@ -39,7 +39,7 @@ import { useLocation,useParams } from "react-router-dom";
         const fetchData = async () => {
             setIsLoading(true);
             console.log(BaseUrl + `users/profile`)
-            const result = await axios.get(BaseUrl+`users/profile`,{
+            const result = await axios.get(BaseUrl+`users/profile/${userId}`,{
                 headers: {
                   Authorization: `Bearer ${token}`,
                 }});
@@ -55,10 +55,7 @@ import { useLocation,useParams } from "react-router-dom";
         fetchData();
         console.log("user",user)
         
-        return ()=>{
-            unmounted = true;
-        }
-    },[userId,user]);
+    },[]);
 
     return (
         <Box height="full">
@@ -103,13 +100,12 @@ import { useLocation,useParams } from "react-router-dom";
                         
                         </Text>
                         <Stack align={'center'} justify={'center'} direction={'row'} mt={6}>
-                        <Badge
+                        <Text
                             px={2}
                             py={1}
-                            bg={'gray.50'}
                             fontWeight={'400'}>
-                            {user.createdAt}
-                        </Badge>
+                            {new Date(user.createdAt).toLocaleDateString()}
+                        </Text>
                         </Stack>
             
                         <Stack
