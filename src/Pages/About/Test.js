@@ -9,24 +9,37 @@ const Test = () => {
     const [error, setError] = useState(null);
 
     useEffect(() => {
+        // let unmounted = false;
         const fetchData = async () => {
+            // if(!unmounted){
+                
+            // }
             setIsLoading(true);
             try {
                 const result = await axios.get(`http://localhost:3000/chat/all`);
-                setChat(result.data);
-                setIsLoading(false);
+                // if (!unmounted) {
+                    
+                    setChat(result.data);
+                    setIsLoading(false);
+                // }
                 console.log(result.data);
             } catch (error) {
-                setError(error);
-                setIsLoading(false);
-                console.log(error);
+                // if (!unmounted) {
+
+                    setError(error);
+                    setIsLoading(false);
+                    console.log(error);
+                // }
             }
         }
         fetchData();
+        // return () => {
+        //     unmounted = true;
+        // }
     }, []);
     return (
         <>
-            {isLoading ?  chat.map(chat => (
+            {chat ?  chat.map(chat => (
 
                 <div>
                     <h1>{chat.chatName}</h1>

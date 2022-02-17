@@ -34,6 +34,7 @@ import { useLocation,useParams } from "react-router-dom";
     console.log("isLoading",isLoading);
     
     useEffect(() =>{
+        let unmounted = false;
         const token =  localStorage.getItem('token');
         const fetchData = async () => {
             setIsLoading(true);
@@ -42,19 +43,21 @@ import { useLocation,useParams } from "react-router-dom";
                 headers: {
                   Authorization: `Bearer ${token}`,
                 }});
-            
-            setUser(result.data);
+            if(!unmounted){
+                setUser(result.data);
+
+            }
             
             // console.log("data",result.data);
             // setIsLoading(false);
-            return ()=>{
-                setIsLoading(false);
-            }
+            
         }
         fetchData();
         console.log("user",user)
         
-        
+        return ()=>{
+            unmounted = true;
+        }
     },[userId,user]);
 
     return (
@@ -62,7 +65,7 @@ import { useLocation,useParams } from "react-router-dom";
             {/* {isLoading && <Spinner />} */}
             
                 <Center py={6}>
-                {isLoading ?  <Spinner />:(
+                {user ?  (
                     <Stack
                     borderWidth="1px"
                     borderRadius="lg"
@@ -144,7 +147,10 @@ import { useLocation,useParams } from "react-router-dom";
                         </Button>
                         </Stack>
                     </Stack>
-                    </Stack>)}
+                    </Stack>
+                    
+                    ):<Spinner />}
+                    
                 </Center>
             
         </Box>
