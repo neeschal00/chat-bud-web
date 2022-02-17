@@ -81,31 +81,38 @@ export default function SideBar({
   const { isOpen,onOpen, onClose } = useDisclosure();
   const [isLoading,setIsLoading] = useState(true);
   const [user,setUser] = useState(null);
-  const token = localStorage.getItem('token');
-  const socket = useRef(io("http://localhost:3000",{query:`token=${token}`}));
-
+  const socket = useRef(io("http://localhost:3000",{query:`token=${localStorage.getItem("token")}`}));
+  
   
   
   useEffect(() => {
+    let unmounted = false;
     
-    if(isloggedin){
-      const decoded = jwt_decode(token);
-      const userId = decoded.userId;
-      async function fetchData() {
-        
-        const res = await axios.get(BaseUrl+'users/profile',{
-        headers: {
-          Authorization: `Bearer ${token}`,
-        }});
-        console.log(res.data);
+    const token = localStorage.getItem('token');
+    
+    const decoded = jwt_decode(token);
+    const userId = decoded.userId;
+    const  fetchData = async()=> {
+      
+      const res = await axios.get(BaseUrl+'users/profile',{
+      headers: {
+        Authorization: `Bearer ${token}`,
+      }});
+      console.log(res.data);
+      if(!unmounted){
+
         setUser({"userInfo":res.data});
-        return res.data;
       }
-      fetchData();
+      return res.data;
     }
-    console.log("logged in: ",isloggedin);
+    fetchData();
     
-  },[isloggedin,token]);
+    console.log("logged in: ",isloggedin);
+    return ()=>{
+        unmounted = true;
+    }
+    
+  },[isloggedin]);
 
   useEffect(() => {
     // socket.current.emit('addUser',user.userInfo._id);
@@ -116,7 +123,7 @@ export default function SideBar({
       console.log("userid is ",userID);
       // setUser({"userId":userId});
     });
-  } ,[user.userInfo._id]);
+  } ,[]);
 
   
   return (
@@ -140,7 +147,8 @@ export default function SideBar({
         </DrawerContent>
       </Drawer>
       {/* mobilenav */}
-      {user && <MobileNav userData={user}  onOpen={onOpen} />}
+      {/* {user && } */}
+      {user? <MobileNav userData={user}  onOpen={onOpen} />: <Spinner /> }
       
       <Box ml={{ base: 0, md: 80 }} p="4">
         {children}
