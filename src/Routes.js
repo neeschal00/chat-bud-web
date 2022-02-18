@@ -5,6 +5,7 @@ import { ChatInterface } from './Pages/Chat/ChatInterface';
 import GenericNotFound from './Components/GenericNotFound';
 import UserProfile from './Pages/profile/UserProfile';
 import Test from './Pages/About/Test';
+import SearchPage from './Pages/Search/SearchPage';
 
 const Routesl = ( {isloggedin}) => {  
     const params = useParams();
@@ -15,6 +16,7 @@ const Routesl = ( {isloggedin}) => {
             <Route exact path="/chat/:id" element={<ChatInterface />} />
             <Route exact path="/profile/:id" element={<UserProfile />} />
             {/* <Route exact path="/" element={<ChatInterface />} /> */}
+            <Route exact path="/search" element={<SearchPage />} />
             <Route path="/test" element={<Test />} />
             <Route path="/" element={<ChatInterface />} />
             <Route path="*" element={<GenericNotFound />} />
