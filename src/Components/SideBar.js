@@ -23,7 +23,16 @@ import {
   AlertDialog,
   AlertDialogFooter,
 
-  
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverHeader,
+  PopoverBody,
+  PopoverFooter,
+  PopoverArrow,
+  PopoverCloseButton,
+  PopoverAnchor,
+  Portal,
   Menu,
   MenuButton,
   MenuDivider,
@@ -37,11 +46,12 @@ import {
 import {
  
   FiMenu,
+  FiPlus,
   FiBell,
   FiChevronDown,
   FiCheck
 } from 'react-icons/fi';
-import { Link as RouterLink, useNavigate } from 'react-router-dom';
+import { HashRouter, Link as RouterLink, useNavigate } from 'react-router-dom';
 import { IconType } from 'react-icons';
 import { MoonIcon, SunIcon,SearchIcon } from '@chakra-ui/icons';
 import img1 from '../images/1.jpg';
@@ -182,6 +192,26 @@ const SidebarContent = ({ onClose, ...rest }) => {
         </Text>
         <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
       </Flex>
+      <HStack alignItems={"center"}>
+        <Box>
+          <Popover>
+            <PopoverTrigger>
+              <Button rightIcon={<FiPlus />}>Create</Button>
+            </PopoverTrigger>
+            <Portal>
+              <PopoverContent>
+                <PopoverArrow />
+                <PopoverHeader>Header</PopoverHeader>
+                <PopoverCloseButton />
+                <PopoverBody>
+                  <Button colorScheme='blue'>Button</Button>
+                </PopoverBody>
+                <PopoverFooter>This is the footer</PopoverFooter>
+              </PopoverContent>
+            </Portal>
+        </Popover>
+        </Box>
+      </HStack>
       <Box alignItems="center" mx="8" marginBottom={8} h="30" pos="-webkit-sticky">
         <InputGroup>
           <Input placeholder="Search" value={searchValue} onChange={(event) =>setSearchValue(event.target.value)} />
