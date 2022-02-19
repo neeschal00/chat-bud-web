@@ -1,4 +1,4 @@
-import React, { ReactNode } from 'react';
+import React, { ReactNode, useEffect } from 'react';
 import {
   IconButton,
   Avatar,
@@ -41,18 +41,16 @@ import {
   AlertDialogOverlay,
   AlertDialogContent,
   AlertDialogBody,
+  Spinner,
 
 } from '@chakra-ui/react';
 import {
  
-  FiMenu,
+  
   FiPlus,
-  FiBell,
-  FiChevronDown,
-  FiCheck
+ 
 } from 'react-icons/fi';
-import { HashRouter, Link as RouterLink, useNavigate } from 'react-router-dom';
-import { IconType } from 'react-icons';
+
 import { MoonIcon, SunIcon,SearchIcon } from '@chakra-ui/icons';
 import img1 from '../images/1.jpg';
 import img2 from '../images/2.jpg';
@@ -61,7 +59,8 @@ import img4 from '../images/4.jpg';
 import img6 from '../images/6.jpg';
 import img5 from '../images/5.jpg';
 import ChatItem from './ChatItem';
-
+import axios from 'axios';
+import { BaseUrl } from '../api';
 
 const LinkItems = [
     { chatId:"82yedsmgksdmjsh",name: 'Nsh bhat',image:img1, message:"See ya", type:"sent",chatType:"group" },
@@ -80,6 +79,40 @@ const SidebarContent = ({ onClose, ...rest }) => {
     const[searching,setSearching] = React.useState(false);
     const[searchValue,setSearchValue] = React.useState("");
     const color = useColorModeValue('gray.900', 'gray.400');
+    const [chatItems,setChatItems] = React.useState(LinkItems);
+    const [fetched,setFetched] = React.useState(false);
+
+    useEffect(() => {
+        let unmounted = false;
+        
+        const token = localStorage.getItem('token');
+        const  fetchData = async()=> {
+          
+          const res = await axios.get(BaseUrl+'chat/all/user',{
+          headers: {
+            Authorization: `Bearer ${token}`,
+          }});
+          console.log(res.data);
+          if(!unmounted){
+            setChatItems(res.data.chats);
+            setFetched(true);
+            // setUser({"userInfo":res.data});
+          }
+
+          return res.data;
+
+        }
+        fetchData();
+        
+        console.log("logged in: ",);
+        return ()=>{
+            unmounted = true;
+
+        }
+        
+      },[]);
+
+
     return (
       <Box
         transition="3s ease"
@@ -96,8 +129,8 @@ const SidebarContent = ({ onClose, ...rest }) => {
           </Text>
           <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
         </Flex>
-        <HStack alignItems={"center"}>
-          <Box>
+        <HStack alignItems={"center"} mb={"10"}>
+          <Box ml={"10"} alignContent={"center"}>
             <Popover>
               <PopoverTrigger>
                 <Button rightIcon={<FiPlus />}>Create</Button>
@@ -147,11 +180,12 @@ const SidebarContent = ({ onClose, ...rest }) => {
             borderRadius: '24px',
           },
         }}>
-        {LinkItems.map((link) => (
-          <ChatItem key={link.chatId} chatId={link.chatId} name={link.name} image={link.image} message={link.message}>
+            {fetched ? chatItems.map((link,index)=>{
+                <ChatItem key={link._id} chatId={link._id} name={link.chatName} image={link.chatPicture} message={link.chatType}>
             
-          </ChatItem>
-        ))}
+                </ChatItem>
+            }):<Spinner />}
+        
         </Box>
       </Box>
     );

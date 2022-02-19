@@ -3,12 +3,9 @@ import {
   IconButton,
   Avatar,
   Box,
-  Button,
-  CloseButton,
+  
   Flex,
-  HStack,
-  VStack,
-  Icon,
+  
   useColorModeValue,
   Drawer,
   DrawerContent,
@@ -52,23 +49,6 @@ import {
   FiCheck
 } from 'react-icons/fi';
 import { HashRouter, Link as RouterLink, useNavigate } from 'react-router-dom';
-import { IconType } from 'react-icons';
-import { MoonIcon, SunIcon,SearchIcon } from '@chakra-ui/icons';
-import img1 from '../images/1.jpg';
-import img2 from '../images/2.jpg';
-import img3 from '../images/3.jpg';
-import img4 from '../images/4.jpg';
-import img6 from '../images/6.jpg';
-import img5 from '../images/5.jpg';
-import { Spinner } from '@chakra-ui/react'
-import { useState,useEffect ,useRef} from 'react';
-import axios from 'axios';
-import jwt_decode from 'jwt-decode';
-import { BaseUrl } from '../api';
-import {io, Socket} from 'socket.io-client';
-
-
-
 
 const ChatItem = ({ chatId,image,name,message,children,type,...rest }) => {
     const isSent = type === 'sent';

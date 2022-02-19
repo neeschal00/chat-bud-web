@@ -7,6 +7,7 @@ import UserProfile from './Pages/profile/UserProfile';
 import Test from './Pages/About/Test';
 import SearchPage from './Pages/Search/SearchPage';
 import AboutPage from './Pages/About/AboutPage';
+import SelectChat from './Components/SelectChat';
 
 const Routesl = ( {isloggedin}) => {  
     const params = useParams();
@@ -19,7 +20,7 @@ const Routesl = ( {isloggedin}) => {
             {/* <Route exact path="/" element={<ChatInterface />} /> */}
             <Route exact path="/search" element={<SearchPage />} />
             {/* <Route path="/test" element={<Test />} /> */}
-            <Route exact path="/" element={<ChatInterface />} />
+            <Route exact path="/" element={<SelectChat />} />
             <Route path="*" element={<GenericNotFound />} />
         </Routes>
         )
