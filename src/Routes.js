@@ -6,6 +6,7 @@ import GenericNotFound from './Components/GenericNotFound';
 import UserProfile from './Pages/profile/UserProfile';
 import Test from './Pages/About/Test';
 import SearchPage from './Pages/Search/SearchPage';
+import AboutPage from './Pages/About/AboutPage';
 
 const Routesl = ( {isloggedin}) => {  
     const params = useParams();
@@ -17,7 +18,7 @@ const Routesl = ( {isloggedin}) => {
             <Route exact path="/profile/:id" element={<UserProfile />} />
             {/* <Route exact path="/" element={<ChatInterface />} /> */}
             <Route exact path="/search" element={<SearchPage />} />
-            <Route path="/test" element={<Test />} />
+            {/* <Route path="/test" element={<Test />} /> */}
             <Route path="/" element={<ChatInterface />} />
             <Route path="*" element={<GenericNotFound />} />
         </Routes>
@@ -27,7 +28,7 @@ const Routesl = ( {isloggedin}) => {
         <Routes>
             <Route exact path="/sign-in" element={<SignIn />} />
             <Route exact path="/sign-up" element={<SignUp />} />
-            {/* <Route exact path="/about" element={} /> */}
+            <Route exact path="/about" element={<AboutPage />} />
             <Route
                 path="*"
                 element={<GenericNotFound />}
