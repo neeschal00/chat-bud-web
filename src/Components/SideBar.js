@@ -66,6 +66,7 @@ import axios from 'axios';
 import jwt_decode from 'jwt-decode';
 import { BaseUrl } from '../api';
 import {io, Socket} from 'socket.io-client';
+import SidebarContent from './SidebarContent';
 
 const LinkItems = [
   { chatId:"82yedsmgksdmjsh",name: 'Nsh bhat',image:img1, message:"See ya", type:"sent",chatType:"group" },
@@ -172,141 +173,8 @@ export default function SideBar({
 }
 
 
-const SidebarContent = ({ onClose, ...rest }) => {
-  const[searching,setSearching] = React.useState(false);
-  const[searchValue,setSearchValue] = React.useState("");
-  const color = useColorModeValue('gray.900', 'gray.400');
-  return (
-    <Box
-      transition="3s ease"
-      bg={useColorModeValue('white', 'gray.900')}
-      borderRight="1px"
-      borderRightColor={useColorModeValue('gray.200', 'gray.700')}
-      w={{ base: 'full', md: 80 }}
-      pos="fixed"
-      h="full"
-      {...rest}>
-      <Flex h="20" alignItems="center" mx="8" pb="1.6" justifyContent="space-between" pos="-webkit-sticky">
-        <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
-          Logo
-        </Text>
-        <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
-      </Flex>
-      <HStack alignItems={"center"}>
-        <Box>
-          <Popover>
-            <PopoverTrigger>
-              <Button rightIcon={<FiPlus />}>Create</Button>
-            </PopoverTrigger>
-            <Portal>
-              <PopoverContent>
-                <PopoverArrow />
-                <PopoverHeader>Header</PopoverHeader>
-                <PopoverCloseButton />
-                <PopoverBody>
-                  <Button colorScheme='blue'>Button</Button>
-                </PopoverBody>
-                <PopoverFooter>This is the footer</PopoverFooter>
-              </PopoverContent>
-            </Portal>
-        </Popover>
-        </Box>
-      </HStack>
-      <Box alignItems="center" mx="8" marginBottom={8} h="30" pos="-webkit-sticky">
-        <InputGroup>
-          <Input placeholder="Search" value={searchValue} onChange={(event) =>setSearchValue(event.target.value)} />
-          <InputRightElement h={'full'}>
-              <Button
-              variant={'ghost'}
-              rightIcon={<SearchIcon />}
-              isLoading={searching}
-              onClick={() =>{
-                setSearching(true)
-                console.log('Searching for: ', searchValue)
-                
-                }}>
-              </Button>
-          </InputRightElement>
-        </InputGroup>
-      </Box>
-      <Box  marginBottom={8}  overflowY="auto"
-      h="80%"
-      css={{
-        '&::-webkit-scrollbar': {
-          width: '4px',
-        },
-        '&::-webkit-scrollbar-track': {
-          width: '6px',
-        },
-        '&::-webkit-scrollbar-thumb': {
-          background: useColorModeValue('#2D3748', '#A0AEC0'),
-          borderRadius: '24px',
-        },
-      }}>
-      {LinkItems.map((link) => (
-        <ChatItem key={link.chatId} chatId={link.chatId} name={link.name} image={link.image} message={link.message}>
-          
-        </ChatItem>
-      ))}
-      </Box>
-    </Box>
-  );
-};
 
 
-const ChatItem = ({ chatId,image,name,message,children,type,...rest }) => {
-  const isSent = type === 'sent';
-  console.log(isSent);
-  let youColor = useColorModeValue("black","white");
-  return (
-    <Link as={RouterLink} to={'/chat/'+chatId} style={{ textDecoration: 'none' }} _focus={{ boxShadow: 'none' }}>
-      <Flex
-        align="center"
-        p="4"
-        
-        h="20"
-        borderRadius="lg"
-        role="group"
-        cursor="pointer"
-        _hover={{
-          bg: useColorModeValue('blue.600', 'blue.900'),
-          color: 'white',
-          opacity: 0.8,
-        }}
-        {...rest}>
-        {image && (
-          <>
-          <Flex>
-            <Avatar src={image} size="lg" mr="2" />
-            <Box>
-              
-              <Text fontSize="lg" fontWeight="bolder" ml="1">{name}</Text>
-              
-              <Flex w={{base:"80",md:"40"}}>
-                <Box w={{base:"10%",md:"20%"}}>
-                  <Text fontSize="sm" fontWeight="bold" color={youColor}>You: </Text>
-                </Box>
-                <Box w={{base:"80%",md:"70%"}}>
-                  {message && <Text fontSize="sm" color="gray.600" fontWeight="normal" ml="1" isTruncated>{message}</Text>}
-                </Box>
-                <Box w="10%">
-                  <FiCheck size="1.2em" color={youColor} />
-                </Box>
-              </Flex>
-                        
-              
-            </Box>
-            
-
-          </Flex>
-          </>
-        )}
-
-        {children}
-      </Flex>
-    </Link>
-  );
-};
 
 // const SignOut = () => {
   

@@ -19,7 +19,7 @@ const Routesl = ( {isloggedin}) => {
             {/* <Route exact path="/" element={<ChatInterface />} /> */}
             <Route exact path="/search" element={<SearchPage />} />
             {/* <Route path="/test" element={<Test />} /> */}
-            <Route path="/" element={<ChatInterface />} />
+            <Route exact path="/" element={<ChatInterface />} />
             <Route path="*" element={<GenericNotFound />} />
         </Routes>
         )
@@ -28,7 +28,7 @@ const Routesl = ( {isloggedin}) => {
         <Routes>
             <Route exact path="/sign-in" element={<SignIn />} />
             <Route exact path="/sign-up" element={<SignUp />} />
-            <Route exact path="/about" element={<AboutPage />} />
+            <Route exact path="/" element={<AboutPage />} />
             <Route
                 path="*"
                 element={<GenericNotFound />}
