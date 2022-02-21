@@ -70,10 +70,10 @@ const ChatItem = ({ chatId,image,name,message,children,type,...rest }) => {
             opacity: 0.8,
           }}
           {...rest}>
-          {image && (
+          {chatId && (
             <>
             <Flex>
-              <Avatar src={image} size="lg" mr="2" />
+              <Avatar name={name} src={image} size="lg" mr="2" />
               <Box>
                 
                 <Text fontSize="lg" fontWeight="bolder" ml="1">{name}</Text>

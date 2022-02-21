@@ -67,9 +67,12 @@ const SidebarContent = ({ onClose, ...rest }) => {
             Authorization: `Bearer ${token}`,
           }});
           console.log(res.data);
+          console.log(chatItems);
           if(!unmounted){
-            setChatItems(res.data.chats);
-            setFetched(true);
+            // setChatItems(res.data.chats);
+            console.log(chatItems);
+            // setFetched(true);
+
             // setUser({"userInfo":res.data});
           }
 
@@ -84,7 +87,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
 
         }
         
-      },[]);
+      },[chatItems]);
 
 
     return (
@@ -137,10 +140,11 @@ const SidebarContent = ({ onClose, ...rest }) => {
             borderRadius: '24px',
           },
         }}>
-            {fetched ? chatItems.map((link,index)=>{
+            {fetched ? chatItems.map((link)=>{
+              return(
                 <ChatItem key={link._id} chatId={link._id} name={link.chatName} image={link.chatPicture} message={link.chatType}>
             
-                </ChatItem>
+                </ChatItem>)
             }):<Spinner />}
         
         </Box>

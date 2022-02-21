@@ -30,12 +30,13 @@ import { useState, useEffect } from 'react';
   } from '@chakra-ui/react';
 const validationSchema = yup.object({
    chatName: yup.string().max(30).required("Chat name is required"),
-        
+    chatType: yup.string().required(),
   })
 
 const CreateForm = ()=>{
     const toast = useToast();
   const navigate = useNavigate();
+  const token = localStorage.getItem('token');
   return (
     <Formik
       initialValues={{  
@@ -45,44 +46,47 @@ const CreateForm = ()=>{
       
       onSubmit={(values, { setSubmitting, resetForm }) => {
         setSubmitting(true);
-        // console.log(values);
-        // axios.post(BaseUrl+"users/login",
-        
-        // {username:values.username,password:values.password})
-        // .then((result)=>{
-        //   console.log(result)
-        //   localStorage.setItem("token",result.data.token)
-        //   toast({
-        //     title: 'Logged In successfully',
-        //     description: "Your credentials matched with stored data",
-        //     status: 'success',
-        //     duration: 9000,
-        //     isClosable: true,
-        //   })
-        // })
-        // .catch((err)=>{
-        //   console.log(err);
-        //   toast({
-        //     title: "Couldn't Log In ",
-        //     description: "Your creds don't match",
-        //     status: 'error',
-        //     duration: 9000,
-        //     isClosable: true,
-        //   })
-        // })
+        console.log(values);
+        axios.post(BaseUrl+"chat/create/channel",
+        {channelName:values.chatName},
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          }})
+        .then((result)=>{
+          console.log(result)
+          
+          toast({
+            title: 'Chat Created',
+            description: "Channel has been created successfully",
+            status: 'success',
+            duration: 9000,
+            isClosable: true,
+          })
+        })
+        .catch((err)=>{
+          console.log(err);
+          toast({
+            title: "Couldn't Create Chat ",
+            description: "Check the params and try again",
+            status: 'error',
+            duration: 9000,
+            isClosable: true,
+          })
+        })
         console.log(values);
         
         setSubmitting(false);
-        resetForm();
-        navigate("/");
-        window.location.reload(false);
+        // resetForm();
+        // navigate("/");
+        // window.location.reload(false);
       } }
       >
-      {({ values,setFieldValue,errors,toched,isSubmitting, isValid, handleSubmit }) => (
+      {({values,setFieldValue,errors,toched,isSubmitting,value ,isValid, handleSubmit }) => (
         <Form>
           <Stack spacing={4}>
               <InputControl name="chatName" label="Chatname" isRequired />
-              <SelectControl name="chatType" label="Chat Type" defaultValue={"channel"} isRequired>
+              <SelectControl name="chatType" label="Chat Type" selectProps={{ placeholder: "Select option" }} isRequired >
                 <option value="channel">Channel</option>
                 <option value="group">Group</option>
               </SelectControl>
