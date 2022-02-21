@@ -6,7 +6,7 @@ import Footer from './Components/Footer';
 import { BrowserRouter as Router } from 'react-router-dom'
 import { useLocation } from 'react-router-dom';
 import Routesl from './Routes'
-import SideBar from './Components/SideBar';
+import SideBar from './Components/SidebarC/SideBar';
 import { UserDashBoard } from './Pages/Chat/UserDashboard';
 import { useEffect, useState } from 'react';
 import axios from 'axios';

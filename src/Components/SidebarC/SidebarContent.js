@@ -10,8 +10,7 @@ import {
   VStack,
   Icon,
   useColorModeValue,
-  Drawer,
-  DrawerContent,
+  Spinner,
   Text,
   Link,
   useDisclosure,
@@ -19,48 +18,22 @@ import {
   InputGroup,
   Input,
   InputRightElement,
-  AlertDialogHeader,
-  AlertDialog,
-  AlertDialogFooter,
-
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-  PopoverHeader,
-  PopoverBody,
-  PopoverFooter,
-  PopoverArrow,
-  PopoverCloseButton,
-  PopoverAnchor,
-  Portal,
-  Menu,
-  MenuButton,
-  MenuDivider,
-  MenuItem,
-  MenuList,
-  AlertDialogOverlay,
-  AlertDialogContent,
-  AlertDialogBody,
-  Spinner,
+  
 
 } from '@chakra-ui/react';
-import {
- 
-  
-  FiPlus,
- 
-} from 'react-icons/fi';
+
 
 import { MoonIcon, SunIcon,SearchIcon } from '@chakra-ui/icons';
-import img1 from '../images/1.jpg';
-import img2 from '../images/2.jpg';
-import img3 from '../images/3.jpg';
-import img4 from '../images/4.jpg';
-import img6 from '../images/6.jpg';
-import img5 from '../images/5.jpg';
+import img1 from "../../images/1.jpg";
+import img2 from '../../images/2.jpg';
+import img3 from '../../images/3.jpg';
+import img4 from '../../images/4.jpg';
+import img6 from '../../images/6.jpg';
+import img5 from '../../images/5.jpg';
 import ChatItem from './ChatItem';
 import axios from 'axios';
-import { BaseUrl } from '../api';
+import { BaseUrl } from '../../api';
+import ModalClick from './ModalClick';
 
 const LinkItems = [
     { chatId:"82yedsmgksdmjsh",name: 'Nsh bhat',image:img1, message:"See ya", type:"sent",chatType:"group" },
@@ -82,6 +55,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
     const [chatItems,setChatItems] = React.useState(LinkItems);
     const [fetched,setFetched] = React.useState(false);
 
+    
     useEffect(() => {
         let unmounted = false;
         
@@ -130,24 +104,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
           <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
         </Flex>
         <HStack alignItems={"center"} mb={"10"}>
-          <Box ml={"10"} alignContent={"center"}>
-            <Popover>
-              <PopoverTrigger>
-                <Button rightIcon={<FiPlus />}>Create</Button>
-              </PopoverTrigger>
-              <Portal>
-                <PopoverContent>
-                  <PopoverArrow />
-                  <PopoverHeader>Header</PopoverHeader>
-                  <PopoverCloseButton />
-                  <PopoverBody>
-                    <Button colorScheme='blue'>Button</Button>
-                  </PopoverBody>
-                  <PopoverFooter>This is the footer</PopoverFooter>
-                </PopoverContent>
-              </Portal>
-          </Popover>
-          </Box>
+          <ModalClick />
         </HStack>
         <Box alignItems="center" mx="8" marginBottom={8} h="30" pos="-webkit-sticky">
           <InputGroup>
