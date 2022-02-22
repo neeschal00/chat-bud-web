@@ -69,9 +69,9 @@ const SidebarContent = ({ onClose, ...rest }) => {
           console.log(res.data);
           console.log(chatItems);
           if(!unmounted){
-            // setChatItems(res.data.chats);
+            setChatItems(res.data.chats);
             console.log(chatItems);
-            // setFetched(true);
+            setFetched(true);
 
             // setUser({"userInfo":res.data});
           }
@@ -87,7 +87,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
 
         }
         
-      },[chatItems]);
+      },[]);
 
 
     return (
@@ -127,7 +127,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
           </InputGroup>
         </Box>
         <Box  marginBottom={8}  overflowY="auto"
-        h="80%"
+        h="63%"
         css={{
           '&::-webkit-scrollbar': {
             width: '4px',

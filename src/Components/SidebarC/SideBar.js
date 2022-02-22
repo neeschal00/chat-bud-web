@@ -98,9 +98,7 @@ export default function SideBar({
   
   useEffect(() => {
     let unmounted = false;
-    
     const token = localStorage.getItem('token');
-    
     const decoded = jwt_decode(token);
     const userId = decoded.userId;
     const  fetchData = async()=> {
