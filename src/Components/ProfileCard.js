@@ -35,6 +35,7 @@ import {FiUserPlus,FiUsers} from 'react-icons/fi';
     console.log("id",id);
     const userId = id;
     const decodedId = jwt_decode(localStorage.getItem('token'));
+    console.log("decodedId",decodedId);
     // console.log("ownProfile",from);
     console.log("user",user)
     console.log("isLoading",isLoading);
@@ -65,7 +66,7 @@ import {FiUserPlus,FiUsers} from 'react-icons/fi';
         }
         console.log("user",user)
         
-    },[isLoading,userId]);
+    },[userId]);
 
     function addBuddy(event){
         event.preventDefault();
@@ -87,7 +88,7 @@ import {FiUserPlus,FiUsers} from 'react-icons/fi';
         // }
         // fetchData();
         // setIsLoading(false);
-        axios.patch(BaseUrl+`users/buddies/add/${userId}`,{},{
+        axios.patch(BaseUrl+`users/buddies/add/${userId}`,{
             headers: {
             Authorization: `Bearer ${token}`,
           }}).then(res=>{
@@ -103,13 +104,13 @@ import {FiUserPlus,FiUsers} from 'react-icons/fi';
             console.log("res",res);
         }).catch(err=>{
             toast({
-                title: "Error",
-                description: "Something went wrong",
-                status: "error",
+                title: "You are already added",
+                description: "Buddy relationship exist",
+                status: "info",
                 duration: 5000,
                 isClosable: true,
               });
-            console.log("err",err.response.request._response );
+            console.log("err",err);
         });
         
     }
@@ -174,7 +175,7 @@ import {FiUserPlus,FiUsers} from 'react-icons/fi';
                         alignItems={'center'}>
                         
                         {
-                            userId === decodedId.id ? 
+                            userId === decodedId.userId ? 
                             (
                                 <Button
                                     as={RouterLink}
