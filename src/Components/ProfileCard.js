@@ -16,6 +16,9 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { BaseUrl } from '../api';
 import { useLocation,useParams } from "react-router-dom";
+import img from '../images/account.png'
+import jwt_decode from "jwt-decode";
+import {FiUserPlus,FiUsers} from 'react-icons/fi';
   
   export default function ProfileCard() {
 
@@ -29,6 +32,7 @@ import { useLocation,useParams } from "react-router-dom";
     // const {from} = location.state;
     console.log("id",id);
     const userId = id;
+    const decodedId = jwt_decode(localStorage.getItem('token'));
     // console.log("ownProfile",from);
     console.log("user",user)
     console.log("isLoading",isLoading);
@@ -76,7 +80,7 @@ import { useLocation,useParams } from "react-router-dom";
                         <Image
                         objectFit="cover"
                         boxSize="100%"
-                        src={user.profile_picture.startsWith("http")? user.profile_picture: BaseUrl+user.profile_picture}
+                        src={img}
                         />
                     </Flex>
                     <Stack
@@ -115,32 +119,65 @@ import { useLocation,useParams } from "react-router-dom";
                         padding={2}
                         justifyContent={'space-between'}
                         alignItems={'center'}>
-                        <Button
-                            flex={1}
-                            fontSize={'sm'}
-                            rounded={'full'}
-                            _focus={{
-                            bg: 'gray.200',
-                            }}>
-                            Message
-                        </Button>
-                        <Button
-                            flex={1}
-                            fontSize={'sm'}
-                            rounded={'full'}
-                            bg={'blue.400'}
-                            color={'white'}
-                            boxShadow={
-                            '0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)'
-                            }
-                            _hover={{
-                            bg: 'blue.500',
-                            }}
-                            _focus={{
-                            bg: 'blue.500',
-                            }}>
-                            Follow
-                        </Button>
+                        
+                        {
+                            user.id === decodedId.id ? 
+                            (
+                                <Button
+                                    flex={1}
+                                    fontSize={'sm'}
+                                    rounded={'full'}
+                                    bg={'blue.400'}
+                                    color={'white'}
+                                    rightIcon={<FiUsers />}
+                                    boxShadow={
+                                    '0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)'
+                                    }
+                                    _hover={{
+                                    bg: 'blue.500',
+                                    }}
+                                    _focus={{
+                                    bg: 'blue.500',
+                                    }}
+                                >
+                                    View Buddies
+                                </Button>
+                            )
+                            
+                            :
+                            (<>
+                            
+                                <Button
+                                    flex={1}
+                                    fontSize={'sm'}
+                                    rounded={'full'}
+                                    _focus={{
+                                    bg: 'gray.200',
+                                    }}>
+                                    Message
+                                </Button>
+                                <Button
+                                    flex={1}
+                                    fontSize={'sm'}
+                                    rounded={'full'}
+                                    bg={'blue.400'}
+                                    color={'white'}
+                                    rightIcon={<FiUserPlus />}
+                                    boxShadow={
+                                    '0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)'
+                                    }
+                                    _hover={{
+                                    bg: 'blue.500',
+                                    }}
+                                    _focus={{
+                                    bg: 'blue.500',
+                                    }}>
+                                    Add Buddy
+                                </Button>
+                                </>
+                            )
+                        }
+                        
                         </Stack>
                     </Stack>
                     </Stack>

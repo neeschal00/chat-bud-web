@@ -28,6 +28,32 @@ const ChatDetails =(props) =>{
                 
                 
                 <Accordion allowToggle>
+                {props.chatType === 'group' ?
+                (
+                    <AccordionItem>
+                    <h2>
+                    <AccordionButton>
+                        <Box flex='1' textAlign='left' width="100%">
+                            Chat Members
+                        </Box>
+                        <AccordionIcon />
+                    </AccordionButton>
+                    </h2>
+                    <AccordionPanel pb={4}>
+                        <Box width="100%">
+                            {props.chatMembers.map((member,index) => (
+                                <Link href="#">
+                                    <Text>
+                                        <Button leftIcon={<FiMinusCircle />} variantColor="blue" width="100%">Block </Button>
+                                    </Text>
+                                </Link>
+                            ))}
+                        </Box>
+                    </AccordionPanel>
+                </AccordionItem>
+                ): null
+                    }
+
                     <AccordionItem>
                         <h2>
                         <AccordionButton>
