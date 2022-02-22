@@ -5,6 +5,7 @@ import InputEmoji from "react-input-emoji";
     import {
         TextareaControl,
         SubmitButton,
+        InputControl,
       } from "formik-chakra-ui";
 
       import { Formik, Field, Form, useField } from 'formik';
@@ -18,14 +19,14 @@ const TextAreaField = ({ label,...props }) => {
     
     return (
         <FormControl id="message" isRequired isInvalid={!!meta.error && meta.touched} >
-            <Field as={InputEmoji} {...field} {...props} />
+            <Field name="message" as={InputEmoji} {...field} {...props} />
             {!!errorText && <FormErrorMessage>{errorText}</FormErrorMessage>}
         </FormControl>
     )
 }
 
 const validationSchema = yup.object({
-    message: yup.string().required('Message is required'),
+    message: yup.string().max(300),
         
   })
 
@@ -59,11 +60,12 @@ const ChatInputForm = (props) =>{
             backgroundColor={iborder}
             onChange={setMessage} 
             name="message" 
+            onSubmit={handleSubmit}
             border='1px' 
             borderRadius={10} borderColor={iborder} cleanOnEnter placeholder="Type a message" /> */}
             
-                <TextAreaField onChange={setMessage} name="message" border='1px' borderColor={iborder} borderRadius={10} />
-        
+                {/* <TextAreaField onChange={setMessage} name="message" border='1px' borderColor={iborder} borderRadius={10} /> */}
+              <TextareaControl onChange={setMessage} resize="none" name='message' placeholder="Type a message" borderRadius={10} borderColor={iborder} />
                 <SubmitButton
                   type="submit"
                   loadingText="Submitting"

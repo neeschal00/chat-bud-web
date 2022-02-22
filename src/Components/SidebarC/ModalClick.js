@@ -29,7 +29,7 @@ const ModalClick = (props) => {
                 <ModalHeader>Create a Chat</ModalHeader>
                 <ModalCloseButton />
                 <ModalBody>
-                    <CreateForm />
+                    <CreateForm onClose={onClose} />
                 </ModalBody>
 
                 <ModalFooter>

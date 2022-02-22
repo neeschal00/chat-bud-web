@@ -18,7 +18,8 @@ const ChatDetails =(props) =>{
             
             <VStack spacing="1.5" mt='1.5' alignItems="center">
                 <Box>
-                    <Avatar size="2xl" src={props.chatImage} />
+                    {props.chatImage ? <Avatar size="2xl" src={props.chatImage} /> : <Avatar name={props.chatName} size="2xl"/>}
+                    {/* <Avatar  src={props.chatImage} /> */}
                 </Box>
                 
                 <Box>

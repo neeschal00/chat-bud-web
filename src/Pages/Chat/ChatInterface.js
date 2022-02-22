@@ -41,8 +41,13 @@ export const ChatInterface = (props) => {
     return(
         <Box w="100%" h="100%">
             <Flex>
-                <ChatBox  chatName={chatDetails.chatName} chatId={chatDetails.chatName} chatImage={chatDetails.chatImage} chatType={chatDetails.chatType}/>
-                {chatDetails !== {} ? <ChatDetails  chatName={chatDetails.chatName} chatId={chatDetails.chatId} chatImage={chatDetails.chatImage} chatType={chatDetails.chatType} />:<Spinner />}
+                <ChatBox chatMessages={chatDetails.chatMessages} chatName={chatDetails.chatName} chatId={chatDetails.chatName} chatImage={chatDetails.chatImage} chatType={chatDetails.chatType}/>
+                {chatDetails !== {} ? (<ChatDetails  chatName={chatDetails.chatName} 
+                chatId={chatDetails.chatId} 
+                chatMembers = {chatDetails.chatMembers}
+                chatImage={chatDetails.chatImage} 
+                chatType={chatDetails.chatType} />):
+                (<Spinner />)}
             </Flex>
         </Box>
     );
