@@ -70,7 +70,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
           console.log(chatItems);
           // if(!unmounted){
 
-          setChatItems(res.data.chats);
+          setChatItems(res.data.chats.reverse());
           console.log(chatItems);
           setFetched(true);
 
