@@ -52,14 +52,14 @@ const SidebarContent = ({ onClose, ...rest }) => {
     const[searching,setSearching] = React.useState(false);
     const[searchValue,setSearchValue] = React.useState("");
     const color = useColorModeValue('gray.900', 'gray.400');
-    const [chatItems,setChatItems] = React.useState(LinkItems);
+    const [chatItems,setChatItems] = React.useState([]);
     const [fetched,setFetched] = React.useState(false);
 
+    const token = localStorage.getItem('token');
     
     useEffect(() => {
-        let unmounted = false;
+      
         
-        const token = localStorage.getItem('token');
         const  fetchData = async()=> {
           
           const res = await axios.get(BaseUrl+'chat/all/user',{
@@ -68,26 +68,29 @@ const SidebarContent = ({ onClose, ...rest }) => {
           }});
           console.log(res.data);
           console.log(chatItems);
-          if(!unmounted){
-            setChatItems(res.data.chats);
-            console.log(chatItems);
-            setFetched(true);
+          // if(!unmounted){
+
+          setChatItems(res.data.chats);
+          console.log(chatItems);
+          setFetched(true);
 
             // setUser({"userInfo":res.data});
-          }
+          // }
 
           return res.data;
 
         }
-        fetchData();
-        
-        console.log("logged in: ",);
-        return ()=>{
-            unmounted = true;
-
+        if(!fetched){
+          fetchData();
         }
         
-      },[]);
+        console.log("logged in: ",);
+        // return ()=>{
+        //     unmounted = true;
+
+        // }
+        
+      },[fetched]);
 
 
     return (
@@ -107,7 +110,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
           <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
         </Flex>
         <HStack alignItems={"center"} mb={"10"}>
-          <ModalClick />
+          <ModalClick setFetched={setFetched} />
         </HStack>
         <Box alignItems="center" mx="8" marginBottom={8} h="30" pos="-webkit-sticky">
           <InputGroup>

@@ -33,7 +33,7 @@ const validationSchema = yup.object({
     chatType: yup.string().required(),
   })
 
-const CreateForm = ({onClose})=>{
+const CreateForm = ({onClose,setFetched})=>{
     const toast = useToast();
   const navigate = useNavigate();
   const token = localStorage.getItem('token');
@@ -78,6 +78,7 @@ const CreateForm = ({onClose})=>{
         console.log(values);
         
         setSubmitting(false);
+        setFetched(false);
         // resetForm();
         // navigate("/");
         // window.location.reload(false);

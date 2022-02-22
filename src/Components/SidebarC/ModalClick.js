@@ -18,7 +18,7 @@ import {
 import CreateForm from './CreateForm';
 
 
-const ModalClick = (props) => {
+const ModalClick = ({setFetched}) => {
     const { isOpen, onOpen, onClose } = useDisclosure();
     return(
         <Box ml={"10"} alignContent={"center"}>
@@ -29,7 +29,7 @@ const ModalClick = (props) => {
                 <ModalHeader>Create a Chat</ModalHeader>
                 <ModalCloseButton />
                 <ModalBody>
-                    <CreateForm onClose={onClose} />
+                    <CreateForm onClose={onClose} setFetched={setFetched}/>
                 </ModalBody>
 
                 <ModalFooter>
