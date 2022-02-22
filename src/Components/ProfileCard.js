@@ -11,11 +11,12 @@ import {
     Text,
     Spinner,
     useColorModeValue,
+    useToast
   } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { BaseUrl } from '../api';
-import { useLocation,useParams } from "react-router-dom";
+import { useParams, Link as RouterLink } from "react-router-dom";
 import img from '../images/account.png'
 import jwt_decode from "jwt-decode";
 import {FiUserPlus,FiUsers} from 'react-icons/fi';
@@ -26,6 +27,7 @@ import {FiUserPlus,FiUsers} from 'react-icons/fi';
     const[user, setUser] = useState(null);
     const bgColor = useColorModeValue('white', 'gray.900')
     const textColor = useColorModeValue('gray.700', 'gray.400')
+    const toast = useToast();
     // console.log(user)
     // const location = useLocation();
     const { id } = useParams();
@@ -46,7 +48,8 @@ import {FiUserPlus,FiUsers} from 'react-icons/fi';
             const result = await axios.get(BaseUrl+`users/profile/${userId}`,{
                 headers: {
                   Authorization: `Bearer ${token}`,
-                }});
+                }
+            });
             if(!unmounted){
                 setUser(result.data);
 
@@ -56,17 +59,67 @@ import {FiUserPlus,FiUsers} from 'react-icons/fi';
             // setIsLoading(false);
             
         }
-        fetchData();
+        if(!isLoading){
+
+            fetchData();
+        }
         console.log("user",user)
         
-    },[]);
+    },[isLoading,userId]);
+
+    function addBuddy(event){
+        event.preventDefault();
+        console.log("add buddy");
+        const token =  localStorage.getItem('token');
+        setIsLoading(true);
+        // const fetchData = async () => {
+        //     setIsLoading(true);
+        //     console.log(BaseUrl + `users/addBuddy/${userId}`)
+        //     const result = await axios.patch(BaseUrl+`users/buddies/add/${userId}`,{
+        //         headers: {
+        //           Authorization: `Bearer ${token}`,
+        //         }});
+        //     console.log(result);
+            
+        //     // console.log("data",result.data);
+        //     // setIsLoading(false);
+            
+        // }
+        // fetchData();
+        // setIsLoading(false);
+        axios.patch(BaseUrl+`users/buddies/add/${userId}`,{},{
+            headers: {
+            Authorization: `Bearer ${token}`,
+          }}).then(res=>{
+            console.log(res);
+            toast({
+                title: "Buddy Added",
+                description: "You have successfully added a buddy",
+                status: "success",
+                duration: 5000,
+                isClosable: true,
+              });
+                setIsLoading(false);
+            console.log("res",res);
+        }).catch(err=>{
+            toast({
+                title: "Error",
+                description: "Something went wrong",
+                status: "error",
+                duration: 5000,
+                isClosable: true,
+              });
+            console.log("err",err.response.request._response );
+        });
+        
+    }
 
     return (
         <Box height="full">
             {/* {isLoading && <Spinner />} */}
             
                 <Center py={6}>
-                {user ?  (
+                {user && isLoading ?  (
                     <Stack
                     borderWidth="1px"
                     borderRadius="lg"
@@ -121,9 +174,11 @@ import {FiUserPlus,FiUsers} from 'react-icons/fi';
                         alignItems={'center'}>
                         
                         {
-                            user.id === decodedId.id ? 
+                            userId === decodedId.id ? 
                             (
                                 <Button
+                                    as={RouterLink}
+                                    to="/buddies"
                                     flex={1}
                                     fontSize={'sm'}
                                     rounded={'full'}
@@ -163,6 +218,7 @@ import {FiUserPlus,FiUsers} from 'react-icons/fi';
                                     bg={'blue.400'}
                                     color={'white'}
                                     rightIcon={<FiUserPlus />}
+                                    onClick={addBuddy}
                                     boxShadow={
                                     '0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)'
                                     }
