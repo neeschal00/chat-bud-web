@@ -19,7 +19,7 @@ const Routesl = ( {isloggedin,userData}) => {
             <Route exact path="/chat/:id" element={<ChatInterface />} />
             <Route exact path="/profile/:id" element={<UserProfile currentUser={userData} />} />
             {/* <Route exact path="/" element={<ChatInterface />} /> */}
-            <Route exact path="/search" element={<SearchPage />} />
+            <Route exact path="/search/:uname" element={<SearchPage />} />
             <Route exact path="/buddies" element={<BuddiesPage userData={userData} />} />
             {/* <Route path="/test" element={<Test />} /> */}
             <Route exact path="/" element={<SelectChat />} />

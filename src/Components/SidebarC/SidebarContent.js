@@ -34,6 +34,7 @@ import ChatItem from './ChatItem';
 import axios from 'axios';
 import { BaseUrl } from '../../api';
 import ModalClick from './ModalClick';
+import { useNavigate } from 'react-router-dom';
 
 const LinkItems = [
     { chatId:"82yedsmgksdmjsh",name: 'Nsh bhat',image:img1, message:"See ya", type:"sent",chatType:"group" },
@@ -56,6 +57,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
     const [fetched,setFetched] = React.useState(false);
 
     const token = localStorage.getItem('token');
+    const navigate = useNavigate();
     
     useEffect(() => {
       
@@ -92,6 +94,13 @@ const SidebarContent = ({ onClose, ...rest }) => {
         
       },[fetched]);
 
+    function search(searchValue){
+      setSearching(true);
+      // setSearchValue(searchValue);
+      console.log(searchValue);
+      navigate('/search/'+searchValue);
+      setSearching(false);
+    }
 
     return (
       <Box
@@ -120,11 +129,7 @@ const SidebarContent = ({ onClose, ...rest }) => {
                 variant={'ghost'}
                 rightIcon={<SearchIcon />}
                 isLoading={searching}
-                onClick={() =>{
-                  setSearching(true)
-                  console.log('Searching for: ', searchValue)
-                  
-                  }}>
+                onClick={search}>
                 </Button>
             </InputRightElement>
           </InputGroup>
