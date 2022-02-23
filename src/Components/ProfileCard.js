@@ -21,7 +21,7 @@ import img from '../images/account.png'
 import jwt_decode from "jwt-decode";
 import {FiUserPlus,FiUsers} from 'react-icons/fi';
   
-  export default function ProfileCard() {
+  export default function ProfileCard({currentUser}) {
 
     const[isLoading, setIsLoading] =useState(false);
     const[user, setUser] = useState(null);
@@ -37,8 +37,9 @@ import {FiUserPlus,FiUsers} from 'react-icons/fi';
     const decodedId = jwt_decode(localStorage.getItem('token'));
     console.log("decodedId",decodedId);
     // console.log("ownProfile",from);
-    console.log("user",user)
-    console.log("isLoading",isLoading);
+    // console.log("user",user)
+    // console.log("isLoading",isLoading);
+    let currentBuddies = currentUser.userInfo.buddies;
     
     useEffect(() =>{
         let unmounted = false;
@@ -199,27 +200,30 @@ import {FiUserPlus,FiUsers} from 'react-icons/fi';
                                     Message
                                 </Button>
                                 {
-                                    
+                                    currentBuddies.includes(userId) ? null: 
+                                    (
+                                        <Button
+                                        flex={1}
+                                        fontSize={'sm'}
+                                        rounded={'full'}
+                                        bg={'blue.400'}
+                                        color={'white'}
+                                        rightIcon={<FiUserPlus />}
+                                        onClick={addBuddy}
+                                        boxShadow={
+                                        '0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)'
+                                        }
+                                        _hover={{
+                                        bg: 'blue.500',
+                                        }}
+                                        _focus={{
+                                        bg: 'blue.500',
+                                        }}>
+                                        Add Buddy
+                                    </Button>
+                                    )
                                 }
-                                <Button
-                                    flex={1}
-                                    fontSize={'sm'}
-                                    rounded={'full'}
-                                    bg={'blue.400'}
-                                    color={'white'}
-                                    rightIcon={<FiUserPlus />}
-                                    onClick={addBuddy}
-                                    boxShadow={
-                                    '0px 1px 25px -5px rgb(66 153 225 / 48%), 0 10px 10px -5px rgb(66 153 225 / 43%)'
-                                    }
-                                    _hover={{
-                                    bg: 'blue.500',
-                                    }}
-                                    _focus={{
-                                    bg: 'blue.500',
-                                    }}>
-                                    Add Buddy
-                                </Button>
+                                
                                 </>
                             )
                         }

@@ -3,7 +3,7 @@ import ProfileCard from "../../Components/ProfileCard";
 import { useLocation,useParams } from "react-router-dom";
 
 
-const UserProfile = () => {
+const UserProfile = ({currentUser}) => {
     // const location = useLocation();
     // const { id } = useParams();
     // const {from} = location.state;
@@ -12,7 +12,7 @@ const UserProfile = () => {
     return(
         <>
             <Box>
-                <ProfileCard  />
+                <ProfileCard currentUser={currentUser} />
             </Box>
         </>
     );

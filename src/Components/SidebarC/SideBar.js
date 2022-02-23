@@ -161,7 +161,7 @@ export default function SideBar({
       {user? <MobileNav userData={user}  onOpen={onOpen} />: <Spinner /> }
       
       <Box ml={{ base: 0, md: 80 }} p="4">
-      <Routesl userData={user} isloggedin={isloggedin}/>
+        <Routesl userData={user} isloggedin={isloggedin}/>
 
 
       </Box>

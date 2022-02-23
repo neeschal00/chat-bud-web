@@ -17,7 +17,7 @@ const Routesl = ( {isloggedin,userData}) => {
         return(
         <Routes>
             <Route exact path="/chat/:id" element={<ChatInterface />} />
-            <Route exact path="/profile/:id" element={<UserProfile />} />
+            <Route exact path="/profile/:id" element={<UserProfile currentUser={userData} />} />
             {/* <Route exact path="/" element={<ChatInterface />} /> */}
             <Route exact path="/search" element={<SearchPage />} />
             <Route exact path="/buddies" element={<BuddiesPage userData={userData} />} />
