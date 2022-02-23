@@ -38,12 +38,13 @@ export const ChatInterface = (props) => {
     }
         }
     } ,[params.id]);
+    console.log("chatDetails",chatDetails);
     return(
         <Box w="100%" h="100%">
             <Flex>
-                <ChatBox chatMessages={chatDetails.chatMessages} chatName={chatDetails.chatName} chatId={chatDetails.chatName} chatImage={chatDetails.chatImage} chatType={chatDetails.chatType}/>
+                <ChatBox chatMessages={chatDetails.chatMessages} chatName={chatDetails.chatName} chatId={chatDetails._id} chatImage={chatDetails.chatImage} chatType={chatDetails.chatType}/>
                 {chatDetails !== {} ? (<ChatDetails  chatName={chatDetails.chatName} 
-                chatId={chatDetails.chatId} 
+                chatId={chatDetails._id} 
                 chatMembers = {chatDetails.chatMembers}
                 chatImage={chatDetails.chatImage} 
                 chatType={chatDetails.chatType} />):

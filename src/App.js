@@ -50,7 +50,7 @@ const Foot = () => {
 const LoggedIn = ({isloggedin,SetLoggedIn,userData}) =>{
   
   return(
-    <SideBar isloggedin={isloggedin} SetLoggedIn={SetLoggedIn} userData={userData} children={<Routesl isloggedin={isloggedin}/>} />
+    <SideBar isloggedin={isloggedin} SetLoggedIn={SetLoggedIn} userData={userData} children={<div></div>} />
   );
 }
 const LoggedOut = ({isloggedin}) => {

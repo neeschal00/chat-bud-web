@@ -4,10 +4,10 @@ import {useState,useEffect} from "react";
 import { BaseUrl } from "../../api";
 import {Link as RouterLink} from "react-router-dom";
 import axios from "axios";
-const BuddiesPage = () =>{
+const BuddiesPage = ({userData}) =>{
     const [buddies,setBuddies] = useState([]);
     const [fetched,setFetched] = useState(false);
-
+    console.log("userdata",userData);
     useEffect(() =>{
 
         let unmounted = false;

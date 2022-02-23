@@ -16,7 +16,7 @@ const ChatDetails =(props) =>{
     const borderColor = useColorModeValue("gray.400","gray.200");
     const [isSmaller] = useMediaQuery("(min-width: 1000px)");
     const [isLoading, setIsLoading] = useState(false);
-
+    console.log("chat details",value);
     function deleteChat(event){
         event.preventDefault();
         console.log("Delete Chat");
@@ -37,6 +37,7 @@ const ChatDetails =(props) =>{
               });
                 setIsLoading(false);
                 navigate("/");
+                window.location.reload(false);
             console.log("res",res);
         }).catch(err=>{
             toast({
@@ -112,7 +113,7 @@ const ChatDetails =(props) =>{
                                 
                                 
                                 <Text>
-                                    <Button leftIcon={<FiTrash2 />} variantColor="blue" width="100%">Delete</Button>
+                                    <Button leftIcon={<FiTrash2 />} variantColor="blue" width="100%" onClick={deleteChat}>Delete</Button>
                                 </Text>
                                 
                             </Box>

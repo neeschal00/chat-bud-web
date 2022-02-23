@@ -67,6 +67,7 @@ import jwt_decode from 'jwt-decode';
 import { BaseUrl } from '../../api';
 import {io, Socket} from 'socket.io-client';
 import SidebarContent from './SidebarContent';
+import Routesl from '../../Routes';
 
 // const LinkItems = [
 //   { chatId:"82yedsmgksdmjsh",name: 'Nsh bhat',image:img1, message:"See ya", type:"sent",chatType:"group" },
@@ -160,7 +161,7 @@ export default function SideBar({
       {user? <MobileNav userData={user}  onOpen={onOpen} />: <Spinner /> }
       
       <Box ml={{ base: 0, md: 80 }} p="4">
-        {children}
+      <Routesl userData={user} isloggedin={isloggedin}/>
 
 
       </Box>
