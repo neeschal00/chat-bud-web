@@ -32,12 +32,12 @@ const SearchPage = () =>{
             // setUsers(result.data.users);
             // setFetched(true);
         }
-        if(!fetched){
+        
 
-            fetchData();
-            console.log("search results",users);
-        }
-    },[]);
+        fetchData();
+        console.log("search results",users);
+    
+    },[params.uname]);
 
 
     return (

@@ -94,9 +94,11 @@ const SidebarContent = ({ onClose, ...rest }) => {
         
       },[fetched]);
 
-    function search(searchValue){
+    function search(e){
+      e.preventDefault();
       setSearching(true);
       // setSearchValue(searchValue);
+      console.log(e)
       console.log(searchValue);
       navigate('/search/'+searchValue);
       setSearching(false);
