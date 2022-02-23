@@ -6,13 +6,16 @@ import { Avatar, Box,Container,Flex, Button, Link, useToast,
 import React from "react";
 import { BaseUrl } from "../../api";
 import axios from 'axios';
-
+import { useNavigate } from "react-router-dom";
+import {useState} from 'react';
 const ChatDetails =(props) =>{
     console.log("details",props.chatId);
     const toast = useToast();
+    const navigate = useNavigate();
     const value = props.chatId;
     const borderColor = useColorModeValue("gray.400","gray.200");
     const [isSmaller] = useMediaQuery("(min-width: 1000px)");
+    const [isLoading, setIsLoading] = useState(false);
 
     function deleteChat(event){
         event.preventDefault();
@@ -26,20 +29,21 @@ const ChatDetails =(props) =>{
           }}).then(res=>{
             console.log(res);
             toast({
-                title: "Buddy Added",
-                description: "You have successfully added a buddy",
+                title: "Chat Deleted",
+                description: "The chat Was deleted successfully",
                 status: "success",
-                duration: 5000,
+                duration: 3000,
                 isClosable: true,
               });
                 setIsLoading(false);
+                navigate("/");
             console.log("res",res);
         }).catch(err=>{
             toast({
-                title: "You are already added",
-                description: "Buddy relationship exist",
-                status: "info",
-                duration: 5000,
+                title: "Admin error",
+                description: "You're not admin of this chat",
+                status: "error",
+                duration: 3000,
                 isClosable: true,
               });
             console.log("err",err);
