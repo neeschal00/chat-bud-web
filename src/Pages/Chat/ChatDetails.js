@@ -1,17 +1,51 @@
-import { Avatar, Box,Container,Flex, Button, Link,
+import { Avatar, Box,Container,Flex, Button, Link, useToast,
     Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel,
     Text, VStack,Center,useColorModeValue, useMediaQuery } from "@chakra-ui/react";
 
     import {FiTrash2, FiMinusCircle} from 'react-icons/fi';
 import React from "react";
-
-
+import { BaseUrl } from "../../api";
+import axios from 'axios';
 
 const ChatDetails =(props) =>{
     console.log("details",props.chatId);
+    const toast = useToast();
     const value = props.chatId;
     const borderColor = useColorModeValue("gray.400","gray.200");
     const [isSmaller] = useMediaQuery("(min-width: 1000px)");
+
+    function deleteChat(event){
+        event.preventDefault();
+        console.log("Delete Chat");
+        const token =  localStorage.getItem('token');
+        setIsLoading(true);
+        
+        axios.delete(BaseUrl+`chat/delete/${value}`,{
+            headers: {
+            Authorization: `Bearer ${token}`,
+          }}).then(res=>{
+            console.log(res);
+            toast({
+                title: "Buddy Added",
+                description: "You have successfully added a buddy",
+                status: "success",
+                duration: 5000,
+                isClosable: true,
+              });
+                setIsLoading(false);
+            console.log("res",res);
+        }).catch(err=>{
+            toast({
+                title: "You are already added",
+                description: "Buddy relationship exist",
+                status: "info",
+                duration: 5000,
+                isClosable: true,
+              });
+            console.log("err",err);
+        });
+        
+    }
 
     return (
         <Box h="full" w="40%" borderLeft="1px" borderColor={borderColor} display={isSmaller ? "block" : "none" }>
@@ -65,16 +99,18 @@ const ChatDetails =(props) =>{
                         </h2>
                         <AccordionPanel pb={4}>
                             <Box width="100%">
-                                <Link href="#">
+                                {props.chatType === 'group' || props.chatType ==='channel' ? null: (
                                     <Text>
                                         <Button leftIcon={<FiMinusCircle />} variantColor="blue" width="100%">Block </Button>
                                     </Text>
-                                </Link>
-                                <Link href="#">
-                                    <Text>
-                                        <Button leftIcon={<FiTrash2 />} variantColor="blue" width="100%">Delete</Button>
-                                    </Text>
-                                </Link>
+                                )}
+                                
+                                
+                                
+                                <Text>
+                                    <Button leftIcon={<FiTrash2 />} variantColor="blue" width="100%">Delete</Button>
+                                </Text>
+                                
                             </Box>
                         </AccordionPanel>
                     </AccordionItem>

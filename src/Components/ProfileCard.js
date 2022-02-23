@@ -73,21 +73,7 @@ import {FiUserPlus,FiUsers} from 'react-icons/fi';
         console.log("add buddy");
         const token =  localStorage.getItem('token');
         setIsLoading(true);
-        // const fetchData = async () => {
-        //     setIsLoading(true);
-        //     console.log(BaseUrl + `users/addBuddy/${userId}`)
-        //     const result = await axios.patch(BaseUrl+`users/buddies/add/${userId}`,{
-        //         headers: {
-        //           Authorization: `Bearer ${token}`,
-        //         }});
-        //     console.log(result);
-            
-        //     // console.log("data",result.data);
-        //     // setIsLoading(false);
-            
-        // }
-        // fetchData();
-        // setIsLoading(false);
+        
         axios.patch(BaseUrl+`users/buddies/add/${userId}`,{
             headers: {
             Authorization: `Bearer ${token}`,
