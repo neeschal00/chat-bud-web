@@ -137,6 +137,10 @@ export default function SideBar({
       console.log("userid is ",userID);
       // setUser({"userId":userId});
     });
+    socket.current.on("getActive", (users) => {
+      console.log("active users are ",users);
+      // setUser({"userId":userId});
+    });
   } ,[]);
 
   

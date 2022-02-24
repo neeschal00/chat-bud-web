@@ -13,29 +13,63 @@ import { Avatar,
     useColorModeValue,
 
     } from "@chakra-ui/react";
-
-    
+    import * as yup from 'yup';
+    import {
+        TextareaControl,
+        SubmitButton,
+        InputControl,
+      } from "formik-chakra-ui";
+      import {FiSend} from 'react-icons/fi';
+      import { Formik, Field, Form, useField } from 'formik';
 
 import { useEffect, useState,useRef } from "react";
 import ChatBubble from "./ChatBubble";
 
-import ChatInputForm from "./ChatInputForm";
+
+const validationSchema = yup.object({
+    message: yup.string().max(300),
+        
+  })
+
+
+
+
+
+
+
 const ChatBox = ({socket,chatMessages,chatId,chatImage,chatName,chatType}) => {
     console.log("chatbox",chatId);
     const [messages, setMessages] = useState(chatMessages);
-    const [messagevalue,setMessageValue ]= useState("");
+    const [onlineusers, setOnlineUsers] = useState([]);
+    const [arrivalMessage,setArrivalMessage] = useState(null);
     let color = useColorModeValue("black","white");
     let borderColor = useColorModeValue("#A0AEC0","#CBD5E0");
     const userId = localStorage.getItem("token");
+    const iborder = useColorModeValue("gray.400","gray.200");
+    const [message,setMessage] = useState('');
 
     const messagesEndRef = useRef(null)
+    console.log("chat messages2",messages);
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
     }
+
+    useEffect(() => {
+        socket.current.on("getActive",(data)=>{
+            setOnlineUsers(data);
+        });
+      }, []);
+
     useEffect(()=>{
 
+        socket.current.on("getmessage",(data)=>{
+            console.log("message",data);
+            setMessages([...messages,data]);
+            scrollToBottom();
+        })
     },[])
+    
 
     useEffect(() => {
         scrollToBottom()
@@ -79,13 +113,51 @@ const ChatBox = ({socket,chatMessages,chatId,chatImage,chatName,chatType}) => {
             <Box pos="-webkit-sticky">
 
                 
-                    <ChatInputForm />
+            <Formik
+                initialValues={{  
+                message: ''}}
+                validationSchema={validationSchema}
+                validateOnChange = {false}
+                validateOnBlur = {false}
+                validateOnMount = {false}
+                onSubmit={(values, { setSubmitting, resetForm }) => {
+                setSubmitting(true);
+                console.log(values);
+                socket.current.emit("sendMessage",{
+                    userId:userId,
+                    chatId:chatId,
+                    text:values.message,
+                    });
+                setSubmitting(false);
+                resetForm();
+                } }
+                >
+                {({ values,setFieldValue,errors,tuched,isSubmitting, isValid, handleSubmit }) => (
+                <Form>
+                <HStack spacing={2}>
+                        <TextareaControl onChange={setMessage} resize="none" name='message' placeholder="Type a message" borderRadius={10} borderColor={iborder} />
+                        <SubmitButton
+                        type="submit"
+                        loadingText="Submitting"
+                        isLoading={isSubmitting}
+                        isDisabled={!isValid}
+                        rightIcon={<FiSend></FiSend>}
+                        bg={'blue.400'}
+                        color={'white'}
+                        _hover={{
+                            bg: 'blue.500',
+                        }}>
+                        Send
+                        </SubmitButton>
+                    </HStack>
+                </Form>
+                )}
+            </Formik>
                 
             </Box>
         </Box>
     );
 }
-
 
 
 
