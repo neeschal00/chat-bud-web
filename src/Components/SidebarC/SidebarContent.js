@@ -34,7 +34,7 @@ import ChatItem from './ChatItem';
 import axios from 'axios';
 import { BaseUrl } from '../../api';
 import ModalClick from './ModalClick';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate,Link as RouterLink } from 'react-router-dom';
 
 const LinkItems = [
     { chatId:"82yedsmgksdmjsh",name: 'Nsh bhat',image:img1, message:"See ya", type:"sent",chatType:"group" },
@@ -115,8 +115,8 @@ const SidebarContent = ({ onClose, ...rest }) => {
         h="full"
         {...rest}>
         <Flex h="20" alignItems="center" mx="8" pb="1.6" justifyContent="space-between" pos="-webkit-sticky">
-          <Text fontSize="2xl" fontFamily="monospace" fontWeight="bold">
-            Logo
+          <Text as={RouterLink} to="/" fontSize="2xl" fontFamily="monospace" fontWeight="bold">
+            Chat Bud
           </Text>
           <CloseButton display={{ base: 'flex', md: 'none' }} onClick={onClose} />
         </Flex>

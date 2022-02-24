@@ -1,15 +1,15 @@
 import { Box,Flex,Text,Avatar, useColorModeValue } from "@chakra-ui/react";
-
+import jwt_decode from "jwt-decode";
 const ImageMessage = ({message}) => {
     
 }
 
 
-const ChatBubble = ({message,chatName}) => {
+const ChatBubble = ({chatId,message,chatName}) => {
     console.log(message);
     const color = useColorModeValue("#CBD5E0","#3C3E46")
-    
-    if (message.senderId === "nischay") {
+    const userId = jwt_decode(localStorage.getItem("token")).userId;
+    if (message.senderId === userId) {
         return (
             <Box  display="flex" flexDirection="column">
                 <Box display="flex" justifyContent="flex-end" mr="1.5">
