@@ -23,7 +23,7 @@ export const ChatInterface = (props) => {
       headers: {
         Authorization: `Bearer ${token}`,
       }});
-      console.log(res.data);
+    //   console.log("hello chat details nigg",res.data);
       if(!unmounted){
         setchatDetails(res.data);
         // setUser({"userInfo":res.data});
@@ -38,25 +38,36 @@ export const ChatInterface = (props) => {
     }
         }
     } ,[params.id]);
-    console.log("chatDetails",chatDetails);
+    console.log("chatMesag",chatDetails.chatMessages);
     
     return(
         <Box w="100%" h="100%">
             <Flex>
+                
+
+
+                {chatDetails !== {} ? (
+                <>
                 <ChatBox 
-                chatMessages={chatDetails.chatMessages} 
+                 
                 chatName={chatDetails.chatName} 
                 chatId={chatDetails._id} 
                 chatImage={chatDetails.chatImage}
+                chatMessages={chatDetails.chatMessages}
+                chatMembers = {chatDetails.chatMembers}
                 socket={props.socket} 
                 chatType={chatDetails.chatType}/>
 
-
-                {chatDetails !== {} ? (<ChatDetails  chatName={chatDetails.chatName} 
+                <ChatDetails  
+                chatName={chatDetails.chatName} 
                 chatId={chatDetails._id} 
                 chatMembers = {chatDetails.chatMembers}
                 chatImage={chatDetails.chatImage} 
-                chatType={chatDetails.chatType} />):
+                chatType={chatDetails.chatType} />
+                </>
+                
+                
+                ):
                 (<Spinner />)}
             </Flex>
         </Box>

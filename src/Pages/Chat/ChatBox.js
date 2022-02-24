@@ -37,19 +37,29 @@ const validationSchema = yup.object({
 
 
 
-const ChatBox = ({socket,chatMessages,chatId,chatImage,chatName,chatType}) => {
+const ChatBox = ({socket,chatMessages,chatId,chatImage,chatName,chatType,chatMembers}) => {
     console.log("chatbox",chatId);
-    const [messages, setMessages] = useState(chatMessages);
+    const [messages, setMessages] = useState(null);
     const [onlineusers, setOnlineUsers] = useState([]);
     const [arrivalMessage,setArrivalMessage] = useState(null);
     let color = useColorModeValue("black","white");
     let borderColor = useColorModeValue("#A0AEC0","#CBD5E0");
     const userId = localStorage.getItem("token");
     const iborder = useColorModeValue("gray.400","gray.200");
-    const [message,setMessage] = useState('');
+    let chatN;
+    if (chatType==="private"){
+        if(chatMembers[0]._id === userId){
+            chatN = chatMembers[1].username;
+        }else{
+           chatN = chatMembers[0].username;
+        }
+    }
+    else{
+        chatN = chatName
+    }
 
     const messagesEndRef = useRef(null)
-    console.log("chat messages2",messages);
+    // console.log("chat messages2",messages);
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
@@ -65,7 +75,7 @@ const ChatBox = ({socket,chatMessages,chatId,chatImage,chatName,chatType}) => {
 
         socket.current.on("getmessage",(data)=>{
             console.log("message",data);
-            setMessages([...messages,data]);
+            // setMessages([...messages,data]);
             scrollToBottom();
         })
     },[])
@@ -78,9 +88,9 @@ const ChatBox = ({socket,chatMessages,chatId,chatImage,chatName,chatType}) => {
         <Box  height="full" width={{base:"100%",md:"60%",lg:"60%"}}>
             <Box pos="sticky" h="14"  borderBottom="1px" borderColor={borderColor}>
                 <Flex w="100%">
-                    {chatImage ? <Avatar size="md" name={chatName} src={chatImage} /> : <Avatar size="md" name={chatName} />}
+                    {chatImage ? <Avatar size="md" name={chatN} src={chatImage} /> : <Avatar size="md" name={chatN} />}
                     {/* <Avatar size="md" name="John Doe" src={chatImage} /> */}
-                    <Text fontSize="2xl" fontWeight="bold" color={color} ml="1.5">{chatName}</Text>
+                    <Text fontSize="2xl" fontWeight="bold" color={color} ml="1.5">{chatN}</Text>
                     <Spacer />
                     
                 </Flex>
@@ -104,7 +114,7 @@ const ChatBox = ({socket,chatMessages,chatId,chatImage,chatName,chatType}) => {
                     },
                 }}>
                     
-                {messages && messages.map((message,index) => (<ChatBubble key={index} message={message} />))}
+                {chatMessages && chatMessages.map((message,index) => (<ChatBubble key={index} message={message} chatName={chatN} />))}
                 
             
                 <div ref={messagesEndRef}/>
@@ -135,7 +145,7 @@ const ChatBox = ({socket,chatMessages,chatId,chatImage,chatName,chatType}) => {
                 {({ values,setFieldValue,errors,tuched,isSubmitting, isValid, handleSubmit }) => (
                 <Form>
                 <HStack spacing={2}>
-                        <TextareaControl onChange={setMessage} resize="none" name='message' placeholder="Type a message" borderRadius={10} borderColor={iborder} />
+                        <TextareaControl  resize="none" name='message' placeholder="Type a message" borderRadius={10} borderColor={iborder} />
                         <SubmitButton
                         type="submit"
                         loadingText="Submitting"

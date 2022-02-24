@@ -18,7 +18,7 @@ const ChatDetails =(props) =>{
     const [isSmaller] = useMediaQuery("(min-width: 1000px)");
     const [isLoading, setIsLoading] = useState(false);
     const userId = jwt_decode(localStorage.getItem('token')).userId;
-    console.log("chat details",value,props.chatMembers);
+    // console.log("chat details",value,props.chatMembers);
     let chatN;
     if (props.chatType==="private"){
         if(props.chatMembers[0]._id === userId){
@@ -26,6 +26,9 @@ const ChatDetails =(props) =>{
         }else{
            chatN = props.chatMembers[0].username;
         }
+    }
+    else{
+        chatN = props.chatName
     }
 
     function deleteChat(event){
@@ -85,7 +88,7 @@ const ChatDetails =(props) =>{
             
             <VStack spacing="1.5" mt='1.5' alignItems="center">
                 <Box>
-                    {props.chatImage ? <Avatar size="2xl" src={props.chatImage} /> : <Avatar name={props.chatName} size="2xl"/>}
+                    {props.chatImage ? <Avatar size="2xl" src={props.chatImage} /> : <Avatar name={chatN} size="2xl"/>}
                     {/* <Avatar  src={props.chatImage} /> */}
                 </Box>
                 
