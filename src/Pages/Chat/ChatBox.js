@@ -24,7 +24,7 @@ import { Avatar,
 
 import { useEffect, useState,useRef } from "react";
 import ChatBubble from "./ChatBubble";
-
+import jwt_decode from "jwt-decode";
 
 const validationSchema = yup.object({
     message: yup.string().max(300),
@@ -38,13 +38,14 @@ const validationSchema = yup.object({
 
 
 const ChatBox = ({socket,chatMessages,chatId,chatImage,chatName,chatType,chatMembers}) => {
-    console.log("chatbox",chatId);
-    const [messages, setMessages] = useState(null);
+
+    
+    const [messages, setMessages] = useState(chatMessages);
     const [onlineusers, setOnlineUsers] = useState([]);
     const [arrivalMessage,setArrivalMessage] = useState(null);
     let color = useColorModeValue("black","white");
     let borderColor = useColorModeValue("#A0AEC0","#CBD5E0");
-    const userId = localStorage.getItem("token");
+    const userId = jwt_decode(localStorage.getItem("token")).userId;
     const iborder = useColorModeValue("gray.400","gray.200");
     let chatN;
     if (chatType==="private"){
@@ -76,6 +77,7 @@ const ChatBox = ({socket,chatMessages,chatId,chatImage,chatName,chatType,chatMem
         socket.current.on("getmessage",(data)=>{
             console.log("message",data);
             // setMessages([...messages,data]);
+            messages.push(data);
             scrollToBottom();
         })
     },[])
@@ -114,7 +116,7 @@ const ChatBox = ({socket,chatMessages,chatId,chatImage,chatName,chatType,chatMem
                     },
                 }}>
                     
-                {chatMessages && chatMessages.map((message,index) => (<ChatBubble key={index} message={message} chatName={chatN} chatId={chatId} />))}
+                {messages && messages.map((message,index) => (<ChatBubble key={index} message={message} chatName={chatN} chatId={chatId} />))}
                 
             
                 <div ref={messagesEndRef}/>
