@@ -49,9 +49,16 @@ import {
   FiCheck
 } from 'react-icons/fi';
 import { HashRouter, Link as RouterLink, useNavigate } from 'react-router-dom';
+import jwt_decode from 'jwt-decode';
 
-const ChatItem = ({ chatId,image,name,message,children,type,...rest }) => {
+const ChatItem = ({ chatId,chatMembers,image,name,message,children,type,...rest }) => {
     const isSent = type === 'sent';
+    const userId = jwt_decode(localStorage.getItem('token')).userId;
+    // if (userId === chatMembers[0]._id) {
+    //   let 
+    // }
+    console.log(chatId,chatMembers,type);
+    console.log("decidasd token",userId);
     console.log(isSent);
     let youColor = useColorModeValue("black","white");
     return (
@@ -73,6 +80,7 @@ const ChatItem = ({ chatId,image,name,message,children,type,...rest }) => {
           {chatId && (
             <>
             <Flex>
+              {}
               <Avatar name={name} src={image} size="lg" mr="2" />
               <Box>
                 

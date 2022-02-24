@@ -104,7 +104,7 @@ const ChatBox = ({socket,chatMessages,chatId,chatImage,chatName,chatType}) => {
                     },
                 }}>
                     
-                {chatMessages && chatMessages.map((message,index) => (<ChatBubble key={index} message={message} />))}
+                {messages && messages.map((message,index) => (<ChatBubble key={index} message={message} />))}
                 
             
                 <div ref={messagesEndRef}/>

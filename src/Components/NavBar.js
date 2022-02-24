@@ -25,7 +25,7 @@ import {
   } from '@chakra-ui/icons';
   import { MoonIcon, SunIcon } from '@chakra-ui/icons';
 
-import { NavLink} from 'react-router-dom';
+import { Link as NavLink} from 'react-router-dom';
 
   export default function NavBar() {
     const { isOpen, onToggle } = useDisclosure();
@@ -57,7 +57,7 @@ import { NavLink} from 'react-router-dom';
             />
           </Flex>
           <Flex flex={{ base: 1 }} justify={{ base: 'center', md: 'start' }}>
-            <Link to='/' component={NavLink}>
+            <Link to='/' as={NavLink}>
               <Text
                 textAlign={useBreakpointValue({ base: 'center', md: 'left' })}
                 fontFamily={'heading'}

@@ -152,7 +152,8 @@ const SidebarContent = ({ onClose, ...rest }) => {
         }}>
             {fetched ? chatItems.map((link,index)=>{
               return(
-                <ChatItem key={index} chatId={link._id} name={link.chatName} image={link.chatPicture} message={link.chatType}>
+                <ChatItem key={index} chatId={link._id} 
+                name={link.chatName} chatMembers={link.chatMembers} image={link.chatPicture} message={link.chatType}>
             
                 </ChatItem>)
             }):<Spinner />}

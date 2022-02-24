@@ -8,6 +8,7 @@ import { BaseUrl } from "../../api";
 import axios from 'axios';
 import { useNavigate,Link as RouterLink } from "react-router-dom";
 import {useState} from 'react';
+import jwt_decode from "jwt-decode";
 const ChatDetails =(props) =>{
     console.log("details",props.chatId);
     const toast = useToast();
@@ -16,7 +17,17 @@ const ChatDetails =(props) =>{
     const borderColor = useColorModeValue("gray.400","gray.200");
     const [isSmaller] = useMediaQuery("(min-width: 1000px)");
     const [isLoading, setIsLoading] = useState(false);
-    console.log("chat details",value);
+    const userId = jwt_decode(localStorage.getItem('token')).userId;
+    console.log("chat details",value,props.chatMembers);
+    let chatN;
+    if (props.chatType==="private"){
+        if(props.chatMembers[0]._id === userId){
+            chatN = props.chatMembers[1].username;
+        }else{
+           chatN = props.chatMembers[0].username;
+        }
+    }
+
     function deleteChat(event){
         event.preventDefault();
         console.log("Delete Chat");
@@ -79,7 +90,8 @@ const ChatDetails =(props) =>{
                 </Box>
                 
                 <Box>
-                    <Text fontWeight="bold" fontSize="2xl">{props.chatName}</Text>
+                    {props.chatType==="private" ? <Text fontSize="lg" fontWeight="bold">{chatN}</Text> : 
+                    <Text fontSize="lg" fontWeight="bold">{props.chatName}</Text>}
                 </Box>
                 
                 
