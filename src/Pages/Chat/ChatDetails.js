@@ -1,4 +1,4 @@
-import { Avatar, Box,Container,Flex, Button, Link, useToast,
+import { Avatar, Box,Container,Flex, Button, Link, useToast,HStack,
     Accordion, AccordionButton, AccordionIcon, AccordionItem, AccordionPanel,
     Text, VStack,Center,useColorModeValue, useMediaQuery } from "@chakra-ui/react";
 
@@ -6,7 +6,7 @@ import { Avatar, Box,Container,Flex, Button, Link, useToast,
 import React from "react";
 import { BaseUrl } from "../../api";
 import axios from 'axios';
-import { useNavigate } from "react-router-dom";
+import { useNavigate,Link as RouterLink } from "react-router-dom";
 import {useState} from 'react';
 const ChatDetails =(props) =>{
     console.log("details",props.chatId);
@@ -53,7 +53,24 @@ const ChatDetails =(props) =>{
     }
 
     return (
-        <Box h="full" w="40%" borderLeft="1px" borderColor={borderColor} display={isSmaller ? "block" : "none" }>
+        <Box w="40%" h="96" borderLeft="1px" borderColor={borderColor} display={isSmaller ? "block" : "none" }
+        overflowY="auto"
+        display="flex"
+        flexDirection="column"
+        
+        css={{
+            '&::-webkit-scrollbar': {
+            width: '4px',
+            },
+            '&::-webkit-scrollbar-track': {
+            width: '6px',
+            },
+            '&::-webkit-scrollbar-thumb': {
+            background: useColorModeValue('#2D3748', '#A0AEC0'),
+            borderRadius: '24px',
+            },
+        }}
+        >
             
             <VStack spacing="1.5" mt='1.5' alignItems="center">
                 <Box>
@@ -81,11 +98,19 @@ const ChatDetails =(props) =>{
                     <AccordionPanel pb={4}>
                         <Box width="100%">
                             {props.chatMembers.map((member,index) => (
-                                <Link href="#">
-                                    <Text>
-                                        <Button leftIcon={<FiMinusCircle />} variantColor="blue" width="100%">Block </Button>
-                                    </Text>
-                                </Link>
+                                 <Box key={index} ml={10} mb={7}>
+                        
+                                 <Link as={RouterLink} to={`/profile/${member._id}`}>
+                                     <HStack>
+                                         <Avatar size="sm" name={member.username} src={member.avatar} />
+                                         <Box ml={1}>
+                                             <Box>
+                                                 {member.username}
+                                             </Box>
+                                         </Box>
+                                     </HStack>
+                                 </Link>
+                             </Box>
                             ))}
                         </Box>
                     </AccordionPanel>

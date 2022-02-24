@@ -93,7 +93,7 @@ export default function SideBar({
   const { isOpen,onOpen, onClose } = useDisclosure();
   const [isLoading,setIsLoading] = useState(true);
   const [user,setUser] = useState(null);
-  const socket = useRef(io("http://localhost:3000",{query:`token=${localStorage.getItem("token")}`}));
+  const socket = useRef();
   
   
   
@@ -123,6 +123,10 @@ export default function SideBar({
     }
     
   },[isloggedin]);
+
+  useEffect(() => {
+    socket.current = io("http://localhost:3000",{query:`token=${localStorage.getItem("token")}`});
+  } ,[]);
 
   useEffect(() => {
     // socket.current.emit('addUser',user.userInfo._id);
@@ -161,7 +165,7 @@ export default function SideBar({
       {user? <MobileNav userData={user}  onOpen={onOpen} />: <Spinner /> }
       
       <Box ml={{ base: 0, md: 80 }} p="4">
-        <Routesl userData={user} isloggedin={isloggedin}/>
+        <Routesl userData={user} isloggedin={isloggedin} socket={socket}/>
 
 
       </Box>

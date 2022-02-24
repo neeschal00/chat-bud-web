@@ -10,13 +10,13 @@ import AboutPage from './Pages/About/AboutPage';
 import SelectChat from './Components/SelectChat';
 import BuddiesPage from './Pages/Buddies/BuddiesPage';
 
-const Routesl = ( {isloggedin,userData}) => {  
+const Routesl = ( {isloggedin,userData,socket}) => {  
     const params = useParams();
     const location = useLocation();
     if(isloggedin){
         return(
         <Routes>
-            <Route exact path="/chat/:id" element={<ChatInterface />} />
+            <Route exact path="/chat/:id" element={<ChatInterface socket={socket} />} />
             <Route exact path="/profile/:id" element={<UserProfile currentUser={userData} />} />
             {/* <Route exact path="/" element={<ChatInterface />} /> */}
             <Route exact path="/search/:uname" element={<SearchPage />} />

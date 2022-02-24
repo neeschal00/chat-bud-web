@@ -39,6 +39,10 @@ export const ChatInterface = (props) => {
         }
     } ,[params.id]);
     console.log("chatDetails",chatDetails);
+    useEffect(() => {
+        const socketCli = props.socket;
+        console.log("socket",socketCli);
+    },[])
     return(
         <Box w="100%" h="100%">
             <Flex>
