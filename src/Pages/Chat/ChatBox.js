@@ -20,19 +20,22 @@ import { useEffect, useState,useRef } from "react";
 import ChatBubble from "./ChatBubble";
 
 import ChatInputForm from "./ChatInputForm";
-const ChatBox = ({chatMessages,chatId,chatImage,chatName,chatType}) => {
+const ChatBox = ({socket,chatMessages,chatId,chatImage,chatName,chatType}) => {
     console.log("chatbox",chatId);
     const [messages, setMessages] = useState(chatMessages);
     const [messagevalue,setMessageValue ]= useState("");
     let color = useColorModeValue("black","white");
     let borderColor = useColorModeValue("#A0AEC0","#CBD5E0");
+    const userId = localStorage.getItem("token");
 
     const messagesEndRef = useRef(null)
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
     }
-    useEffect(()=>{},[messages])
+    useEffect(()=>{
+
+    },[])
 
     useEffect(() => {
         scrollToBottom()

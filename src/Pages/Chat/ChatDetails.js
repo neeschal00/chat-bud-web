@@ -98,7 +98,7 @@ const ChatDetails =(props) =>{
                     <AccordionPanel pb={4}>
                         <Box width="100%">
                             {props.chatMembers.map((member,index) => (
-                                 <Box key={index} ml={10} mb={7}>
+                                 <Box key={index} ml={4} mb={3}>
                         
                                  <Link as={RouterLink} to={`/profile/${member._id}`}>
                                      <HStack>

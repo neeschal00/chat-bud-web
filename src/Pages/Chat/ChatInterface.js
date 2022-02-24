@@ -39,14 +39,19 @@ export const ChatInterface = (props) => {
         }
     } ,[params.id]);
     console.log("chatDetails",chatDetails);
-    useEffect(() => {
-        const socketCli = props.socket;
-        console.log("socket",socketCli);
-    },[])
+    
     return(
         <Box w="100%" h="100%">
             <Flex>
-                <ChatBox chatMessages={chatDetails.chatMessages} chatName={chatDetails.chatName} chatId={chatDetails._id} chatImage={chatDetails.chatImage} chatType={chatDetails.chatType}/>
+                <ChatBox 
+                chatMessages={chatDetails.chatMessages} 
+                chatName={chatDetails.chatName} 
+                chatId={chatDetails._id} 
+                chatImage={chatDetails.chatImage}
+                socket={props.socket} 
+                chatType={chatDetails.chatType}/>
+
+
                 {chatDetails !== {} ? (<ChatDetails  chatName={chatDetails.chatName} 
                 chatId={chatDetails._id} 
                 chatMembers = {chatDetails.chatMembers}
