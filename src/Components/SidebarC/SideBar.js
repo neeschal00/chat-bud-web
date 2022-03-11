@@ -125,7 +125,9 @@ export default function SideBar({
   },[isloggedin]);
 
   useEffect(() => {
-    socket.current = io("http://localhost:3000",{query:`token=${localStorage.getItem("token")}`});
+    socket.current = io("http://localhost:3000",{
+      transports: ['websocket'],
+      query:`token=${localStorage.getItem("token")}`});
   } ,[]);
 
   useEffect(() => {

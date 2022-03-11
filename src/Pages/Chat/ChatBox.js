@@ -24,6 +24,8 @@ import { Avatar,
 
 import { useEffect, useState,useRef } from "react";
 import ChatBubble from "./ChatBubble";
+import axios from "axios";
+import { BaseUrl } from "../../api";
 import jwt_decode from "jwt-decode";
 
 const validationSchema = yup.object({
@@ -40,9 +42,10 @@ const validationSchema = yup.object({
 const ChatBox = ({socket,chatMessages,chatId,chatImage,chatName,chatType,chatMembers}) => {
 
     
-    const [messages, setMessages] = useState(chatMessages);
+    const [messages, setMessages] = useState(null);
     const [onlineusers, setOnlineUsers] = useState([]);
     const [arrivalMessage,setArrivalMessage] = useState(null);
+    const [gotMessage,setGotMessage] = useState(false);
     let color = useColorModeValue("black","white");
     let borderColor = useColorModeValue("#A0AEC0","#CBD5E0");
     const userId = jwt_decode(localStorage.getItem("token")).userId;
@@ -59,28 +62,71 @@ const ChatBox = ({socket,chatMessages,chatId,chatImage,chatName,chatType,chatMem
         chatN = chatName
     }
 
+
     const messagesEndRef = useRef(null)
-    // console.log("chat messages2",messages);
+    console.log("chat messages2",chatId);
 
     const scrollToBottom = () => {
         messagesEndRef.current?.scrollIntoView({ behavior: "smooth" })
     }
-
     useEffect(() => {
+        let unmounted = false;
+        const fetchData= async()=>{
+            
+            const token =  localStorage.getItem('token');
+            const result = await axios.get(BaseUrl+`chat/messages/${chatId}`,
+           {
+                
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                }
+            });
+            if(!unmounted){
+                setMessages(result.data);
+                // setFetched(true);
+                // console.log(users);
+                console.log("chat messages",messages);
+
+            }
+            // setUsers(result.data.users);
+            // setFetched(true);
+        }
+        
+        if(chatId){
+
+            fetchData();
+        }
+        console.log("search results",messages);
+    },[chatId,messages]);
+
+    // useEffect(() => {
+    //     if(chatMessages){
+    //         setMessages(chatMessages);
+    //     }
+    //   }, [chatMessages]);
+
+    useEffect(()=>{
         socket.current.on("getActive",(data)=>{
             setOnlineUsers(data);
         });
-      }, []);
-
-    useEffect(()=>{
-
         socket.current.on("getmessage",(data)=>{
-            console.log("message",data);
-            // setMessages([...messages,data]);
-            messages.push(data);
+            setGotMessage(true);
+            console.log("message obj created",data);
+            if(!messages){
+                // console.log("")
+                return;
+            }
+            console.log("messages",messages);
+            setMessages([...messages,data]);
+            setArrivalMessage(data);
             scrollToBottom();
+            // setArrivalMessage(data);
+            // setMessages([...messages,data]);
+            // // messages.push(data);
+            // scrollToBottom();
         })
-    },[])
+        console.log("arrival messages",messages);
+    },[]);
     
 
     useEffect(() => {
@@ -140,6 +186,7 @@ const ChatBox = ({socket,chatMessages,chatId,chatImage,chatName,chatType,chatMem
                     chatId:chatId,
                     text:values.message,
                     });
+
                 setSubmitting(false);
                 resetForm();
                 } }
